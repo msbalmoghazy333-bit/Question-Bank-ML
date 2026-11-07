@@ -1,0 +1,3113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI216: Machine Learning Full Question Bank (Chapters 1 - 7)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0d1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #1c2128;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --text-heading: #58a6ff;
+            --accent-blue: #1f6feb;
+            --correct-bg: rgba(46, 160, 67, 0.15);
+            --correct-border: #2ea043;
+            --correct-text: #3fb950;
+            --incorrect-bg: rgba(248, 81, 73, 0.15);
+            --incorrect-border: #f85149;
+            --incorrect-text: #ff7b72;
+            --exp-bg: rgba(56, 139, 253, 0.1);
+            --exp-border: #388bfd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding: 30px 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: #21262d;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+        }
+
+        .chapter-divider {
+            background: #21262d;
+            border-right: 4px solid var(--accent-blue);
+            padding: 12px 18px;
+            border-radius: 6px;
+            margin: 30px 0 20px 0;
+            color: #58a6ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .question-card:hover {
+            border-color: #484f58;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .q-badge {
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-heading);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .q-text {
+            color: #f0f6fc;
+            font-size: 1.05rem;
+            font-weight: 600;
+            direction: ltr;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 10px;
+            direction: ltr;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: #21262d;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .option-label:hover {
+            background: var(--bg-card-hover);
+            border-color: #58a6ff;
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+            width: 17px;
+            height: 17px;
+        }
+
+        .option-label.is-correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            font-weight: 700;
+        }
+
+        .option-label.is-wrong {
+            background-color: var(--incorrect-bg) !important;
+            border-color: var(--incorrect-border) !important;
+            color: var(--incorrect-text) !important;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 18px;
+            padding: 14px 18px;
+            background-color: var(--exp-bg);
+            border-right: 4px solid var(--exp-border);
+            border-radius: 6px;
+            font-size: 0.92rem;
+            color: #d2a8ff;
+            line-height: 1.6;
+        }
+
+        .explanation strong {
+            color: #58a6ff;
+        }
+
+        .actions {
+            position: sticky;
+            bottom: 20px;
+            background: rgba(22, 27, 34, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit {
+            background-color: #238636;
+            color: #ffffff;
+        }
+
+        .btn-submit:hover {
+            background-color: #2ea043;
+        }
+
+        .btn-reset {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-reset:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+
+        .score-box {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #f0f6fc;
+        }
+        </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>AI216: Machine Learning & Pattern Recognition</h1>
+        <p>Comprehensive Bank: Chapters 1 - 7 — 378 Questions</p>
+    </header>
+
+    <div class="tabs">
+        <button type="button" class="tab-btn active" data-filter="all" onclick="filterQuestions('all')">All Questions (378)</button>
+        <button type="button" class="tab-btn" data-filter="1" onclick="filterQuestions(1)">Chapter 1 (52)</button>
+        <button type="button" class="tab-btn" data-filter="2" onclick="filterQuestions(2)">Chapter 2 (59)</button>
+        <button type="button" class="tab-btn" data-filter="3" onclick="filterQuestions(3)">Chapter 3 (64)</button>
+        <button type="button" class="tab-btn" data-filter="4" onclick="filterQuestions(4)">Chapter 4 (50)</button>
+        <button type="button" class="tab-btn" data-filter="5" onclick="filterQuestions(5)">Chapter 5 (51)</button>
+        <button type="button" class="tab-btn" data-filter="6" onclick="filterQuestions(6)">Chapter 6 (61)</button>
+        <button type="button" class="tab-btn" data-filter="7" onclick="filterQuestions(7)">Chapter 7 (41)</button>
+    </div>
+
+    <form id="quizForm">
+        <div id="questionsContainer"></div>
+
+        <div class="actions">
+            <div class="score-box" id="scoreDisplay">Answered: 0 / 378 (378 Left) | Score: 0 / 0</div>
+            <div class="btn-group">
+                <button type="button" class="btn-submit" onclick="submitQuiz()">Submit Answers</button>
+                <button type="button" class="btn-reset" onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+const quizData = [
+    // ================= CHAPTER 1: THE MACHINE LEARNING LANDSCAPE =================
+    {
+        ch: 1, num: 1,
+        q: "Automatically flagging offensive comments on discussion forums is application of............",
+        options: { A: "semantic segmentation", B: "image classification", C: "text classification", D: "natural language processing" },
+        correct: "C",
+        exp: "تصنيف التعليقات المسيئة هو مثال كلاسيكي على تصنيف النصوص (Text Classification) حيث يُعطى النص تصنيفاً محدداً (مثل spam/ham أو offensive/clean)."
+    },
+    {
+        ch: 1, num: 2,
+        q: "What is advantage of training the system incrementally in online learning?",
+        options: { A: "It allow for fast and cheap learning", B: "It requires limited computing resources", C: "It adapt to change rapidly", D: "It can learn about new data on the fly" },
+        correct: "A",
+        exp: "الميزة الأساسية للتدريب التدريجي في Online Learning هي أنه يسمح بتعلم سريع ورخيص (Fast and cheap learning)، لأن النظام يحدّث نفسه تدريجياً مع البيانات المتدفقة بدلاً من إعادة التدريب الكاملة من الصفر."
+    },
+    {
+        ch: 1, num: 3,
+        q: "Machine Learning is the field of study that gives computers the ability to learn with being explicitly programmed.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة، فالتعريف الصحيح لـ Arthur Samuel ينص على التعلم بدون برمجة صريحة (Without being explicitly programmed)."
+    },
+    {
+        ch: 1, num: 4,
+        q: "If your training data is full of errors, outliers, and noise is...........",
+        options: { A: "Poor Quality Data", B: "Irrelevant Features", C: "Nonrepresentative Training Data", D: "All of them are true" },
+        correct: "A",
+        exp: "وجود أخطاء أو قيم شاذة (Outliers) أو تشويش (Noise) في بيانات التدريب يسمى مباشرة ببيانات رديئة الجودة (Poor Quality Data)."
+    },
+    {
+        ch: 1, num: 5,
+        q: "Underfitting the Training Data It occurs when your model is too simple to learn the underlying structure of the data.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الـ Underfitting يحدث عندما يكون النموذج أبسط من اللازم لفهم البنية الأساسية للبيانات."
+    },
+    {
+        ch: 1, num: 6,
+        q: "In Machine Learning Approach is much shorter, easier to maintain, and more accurate.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مقارنة بالنهج التقليدي (Traditional Approach)، كود الـ Machine Learning يكون أقصر وأسهل في الصيانة وأكثر دقة."
+    },
+    {
+        ch: 1, num: 7,
+        q: "ML is Great for Complex problems for which using a traditional approach yields no good solution.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يعد الـ Machine Learning حلاً ممتازاً للمشكلات المعقدة التي تفشل الطرق التقليدية في إيجاد حل جيد لها."
+    },
+    {
+        ch: 1, num: 8,
+        q: "Summarizing long documents automatically is",
+        options: { A: "text summarization", B: "NLU", C: "regression task", D: "All of them are true" },
+        correct: "A",
+        exp: "تلخيص المستندات آلياً هو مهمة تلخيص النصوص (Text Summarization) كأحد فروع معالجة اللغات الطبيعية NLP."
+    },
+    {
+        ch: 1, num: 9,
+        q: "Google Photos are example of..........",
+        options: { A: "Supervised Learning", B: "Unsupervised Learning", C: "Semi-supervised Learning", D: "Reinforcement Learning" },
+        correct: "C",
+        exp: "تطبيق Google Photos مثال على Semi-supervised Learning، لأنه يجمع بين بيانات موسومة قليلة (Labeled data) وبيانات غير موسومة ضخمة (Unlabeled data) لتنظيم الصور والتعرف على الوجوه (Face recognition) وتصنيفها."
+    },
+    {
+        ch: 1, num: 10,
+        q: "The........ is the first ML application that really became mainstream, improving the lives of hundreds of millions of people",
+        options: { A: "spam filter", B: "self driving car", C: "recommendation system", D: "All of them are true" },
+        correct: "A",
+        exp: "فلتر البريد العشوائي (Spam Filter) كان أول تطبيق Machine Learning واسع الانتشار على نطاق شعبي وعالمي."
+    },
+    {
+        ch: 1, num: 11,
+        q: "The examples that the system uses to learn are called the........",
+        options: { A: "testing set", B: "training set", C: "accuracy", D: "All of them are true" },
+        correct: "B",
+        exp: "الأمثلة التي يستخدمها النظام ليتعلم منها تُسمى مجموعة التدريب (Training Set)."
+    },
+    {
+        ch: 1, num: 12,
+        q: "It is the field of study that gives computers the ability to learn without being explicitly programmed.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذا هو التعريف الدقيق لعلم الـ Machine Learning."
+    },
+    {
+        ch: 1, num: 13,
+        q: "The goal is to simplify the data without losing too much information.........",
+        options: { A: "Dimensionality Reduction", B: "Clustering", C: "Classification", D: "Regression task" },
+        correct: "A",
+        exp: "تبسيط البيانات وتقليل عدد المتغيرات دون فقدان المعلومات الهامة يسمى تقليل الأبعاد (Dimensionality Reduction)."
+    },
+    {
+        ch: 1, num: 14,
+        q: "It must then learn by itself what is the best strategy, called a policy, to get the most reward over time.",
+        options: { A: "Supervised Learning", B: "Unsupervised Learning", C: "Semi-supervised Learning", D: "Reinforcement Learning" },
+        correct: "D",
+        exp: "في التعلم المعزز (Reinforcement Learning)، يتعلم الـ Agent استراتيجية (Policy) لتحقيق أعلى مكافأة (Reward)."
+    },
+    {
+        ch: 1, num: 15,
+        q: "The user can either define............. that measures how good your model is",
+        options: { A: "cost function", B: "utility function", C: "good function", D: "All of them are true" },
+        correct: "B",
+        exp: "لقياس مدى جودة النموذج (How good)، نستخدم الـ Utility Function (أو Fitness Function)، بينما Cost Function تقيس مقدار الخطأ (How bad)."
+    },
+    {
+        ch: 1, num: 16,
+        q: "It it means that the model performs well on the training data, but it does not generalize well.",
+        options: { A: "Overfitting the Training Data", B: "fitting the Training Data", C: "Bad Data", D: "All of them are true" },
+        correct: "A",
+        exp: "الـ Overfitting يعني أن النموذج يؤدي بشكل ممتاز على بيانات التدريب لكنه يفشل في التعميم (Generalize) على بيانات جديدة."
+    },
+    {
+        ch: 1, num: 17,
+        q: "Forecasting your company's revenue next year, based on many performance metrics ...",
+        options: { A: "regression task", B: "NLP", C: "NUL", D: "text summarization" },
+        correct: "A",
+        exp: "توقع قيمة عددية متصلة مثل الإيرادات (Revenue) هو مهمة انحدار (Regression Task)."
+    },
+    {
+        ch: 1, num: 18,
+        q: "What machine learning method is typically employed to detect it card fraud?",
+        options: { A: "Clustering", B: "Dimensionality reduction techniques", C: "Anomaly detection", D: "None of the above" },
+        correct: "C",
+        exp: "كشف الاحتيال في البطاقات الائتمانية يتم باستخدام خوارزميات كشف الشذوذ (Anomaly Detection)."
+    },
+    {
+        ch: 1, num: 19,
+        q: "If spammers keep working around your spam filter, you will need to keep writing new rules forever.",
+        options: { A: "The Machine Learning Approach", B: "The Traditional Approach", C: "The Deep Learning Approach", D: "All of them are true" },
+        correct: "B",
+        exp: "الحاجة المستمرة لكتابة وتعديل القواعد اليدوية باستمرار هي المشكلة الأساسية في النهج التقليدي القائم على القواعد (Traditional Approach)."
+    },
+    {
+        ch: 1, num: 20,
+        q: "Which machine learning technique is commonly used to make an app react to voice commands?",
+        options: { A: "RNNs", B: "CNNs", C: "Transformers", D: "All of them are true" },
+        correct: "D",
+        exp: "كل التقنيات المذكورة (RNNs و CNNs و Transformers) يمكن استخدامها لبناء تطبيقات تتفاعل مع الأوامر الصوتية (Voice commands) ومعالجة الإشارات الصوتية، لذا فالإجابة الصحيحة هي All of them are true."
+    },
+    {
+        ch: 1, num: 21,
+        q: "What are the Solutions for Overfitting?",
+        options: { A: "Simplify the model", B: "Gather more training data", C: "Reduce the noise in the training data", D: "All of them are true" },
+        correct: "D",
+        exp: "جميع ما سبق يمثل حلولاً فعالة للـ Overfitting: تبسيط النموذج، جمع بيانات أكثر، أو تقليل التشويش."
+    },
+    {
+        ch: 1, num: 22,
+        q: "The particular performance measure is called accuracy, and it is often used in classification tasks.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مقياس الدقة (Accuracy) هو المقياس الأكثر شيوعاً في مهام التصنيف (Classification Tasks)."
+    },
+    {
+        ch: 1, num: 23,
+        q: "What is The Most Important Supervised Learning Algorithms?",
+        options: { A: "k-Nearest Neighbors", B: "Linear Regression", C: "Logistic Regression", D: "All of them are true" },
+        correct: "D",
+        exp: "كل هذه الخوارزميات (KNN, Linear Regression, Logistic Regression) تنتمي إلى فئة الـ Supervised Learning."
+    },
+    {
+        ch: 1, num: 24,
+        q: "Applying ML techniques to dig into large amounts of data can help discover patterns that were not immediately apparent This called",
+        options: { A: "Data Mining", B: "The Deep learning Approach", C: "Machine Learning", D: "All of them are true" },
+        correct: "A",
+        exp: "استخدام تقنيات تعلم الآلة للتنقيب في البيانات الكبيرة واستخراج أنماط غير واضحة يسمى التنقيب في البيانات (Data Mining)."
+    },
+    {
+        ch: 1, num: 25,
+        q: "ML is Great for..........",
+        options: { A: "Problems for which existing solutions require a lot of fine-tuning", B: "Complex problems for which using a traditional approach yields no good solution", C: "Getting insights about complex problems", D: "All of them are true" },
+        correct: "D",
+        exp: "الـ Machine Learning ممتاز لكل هذه الحالات: للمشاكل ذات القواعد المتشعبة، والمشاكل المعقدة، واستخراج الرؤى (Insights)."
+    },
+    {
+        ch: 1, num: 26,
+        q: "Your system will only be capable of learning if the training data contains enough relevant features and not too many irrelevant ones.",
+        options: { A: "Poor Quality Data", B: "Irrelevant Features", C: "Nonrepresentative Training Data", D: "All of them are true" },
+        correct: "B",
+        exp: "هذه المشكلة تتعلق بالسمات غير الملائمة (Irrelevant Features) والحاجة لعملية Feature Selection."
+    },
+    {
+        ch: 1, num: 27,
+        q: "One of the most challenging of ML If the sample is........., you will have sampling noise",
+        options: { A: "too small", B: "large", C: "fitting", D: "All of them are true" },
+        correct: "A",
+        exp: "عندما تكون عينة البيانات صغيرة جداً (Too small)، يظهر ما يُعرف بـ ضجيج العينات (Sampling Noise)."
+    },
+    {
+        ch: 1, num: 28,
+        q: "It automatically learns which words and phrases are good predictors of spam by detecting unusually frequent patterns of words.",
+        options: { A: "The Machine Learning Approach", B: "The Traditional Approach", C: "The Deep Learning Approach", D: "All of them are true" },
+        correct: "A",
+        exp: "هذه الميزة الفريدة هي جوهر عمل نهج الـ Machine Learning حيث يكتشف الأنماط ويكيف نفسه تلقائياً."
+    },
+    {
+        ch: 1, num: 29,
+        q: "What is the main characteristic of semi-supervised learning?",
+        options: { A: "The training set includes desired solutions", B: "The training data is unlabeled", C: "It often has plenty of unlabeled instances and few labeled instances", D: "The agent can observe the environment" },
+        correct: "C",
+        exp: "التعلم شبه الإشرافي (Semi-supervised Learning) يتميز بوجود كميات ضخمة من البيانات غير الموسومة وعدد قليل فقط من البيانات الموسومة."
+    },
+    {
+        ch: 1, num: 30,
+        q: "If you set a high learning rate, then your system will rapidly adapt to new data, but it will also tend to quickly forget the old data",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، في الـ Online Learning معدل التعلم المرتفع يجعل النظام يتكيف بسرعة لكنه ينسى البيانات القديمة بسرعة (Catastrophic Forgetting)."
+    },
+    {
+        ch: 1, num: 31,
+        q: "Detecting tumors in brain scans is",
+        options: { A: "image classification", B: "semantic segmentation", C: "natural language processing", D: "text classification" },
+        correct: "B",
+        exp: "تحديد مكان وحجم الأورام داخل صور الأشعة بدقة لكل بكسل يمثل مهمة تجزئة الصور الدلالية (Semantic Segmentation)."
+    },
+    {
+        ch: 1, num: 32,
+        q: "In Unsupervised Learning Algorithms used to Visualization and dimensionality reduction",
+        options: { A: "PCA", B: "One-class SVM", C: "Apriori", D: "All of them are true" },
+        correct: "A",
+        exp: "خوارزمية PCA (Principal Component Analysis) هي الأشهر في تقليل الأبعاد والتصور البياني."
+    },
+    {
+        ch: 1, num: 33,
+        q: "What is the main characteristic of reinforcement learning?",
+        options: { A: "The training set includes desired solutions", B: "The training data is unlabeled", C: "It often has plenty of unlabeled instances, and few labeled instances", D: "The agent can observe the environment, select and perform actions, and get rewards in return (or penalties in the form of negative rewards)." },
+        correct: "D",
+        exp: "التعلم المعزز يعتمد على عميل (Agent) يتفاعل مع البيئة وينفذ إجراءات (Actions) للحصول على مكافآت أو عقوبات."
+    },
+    {
+        ch: 1, num: 34,
+        q: "Building an intelligent bot for a game is",
+        options: { A: "NLP", B: "clustering", C: "recommender system", D: "Reinforcement Learning" },
+        correct: "D",
+        exp: "تدريب البوتات الذكية للألعاب (مثل AlphaGo و شطرنج) يعتمد بالأساس على التعلم المعزز (Reinforcement Learning)."
+    },
+    {
+        ch: 1, num: 35,
+        q: "In Machine Learning Approach is much longer, easier to maintain, and more accurate.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة لأن كود الـ Machine Learning يكون أقصر (Much shorter) وليس أطول مقارنة بالبرمجة التقليدية."
+    },
+    {
+        ch: 1, num: 36,
+        q: "Which machine learning technique is commonly used for representing complex, high-dimensional datasets in a clear and insightful diagram?",
+        options: { A: "RNNs", B: "CNNs", C: "Transformers", D: "Dimensionality reduction techniques" },
+        correct: "D",
+        exp: "تقنيات تقليل الأبعاد (مثل t-SNE أو PCA) تُستخدم لعرض البيانات المعقدة متعددة الأبعاد في رسوم بيانية ثنائية أو ثلاثية الأبعاد."
+    },
+    {
+        ch: 1, num: 37,
+        q: "What is the Steps of Feature Engineering?",
+        options: { A: "Feature Selection, Feature Extraction then Creating new features", B: "Feature Extraction, Feature Selection then Creating new features", C: "Creating new features, Feature Selection then Feature Extraction", D: "All of them are true" },
+        correct: "A",
+        exp: "الترتيب القياسي في هندسة الخصائص هو اختيار السمات الأفضل (Feature Selection)، واستخلاص السمات (Feature Extraction)، ثم إنشاء خصائص جديدة."
+    },
+    {
+        ch: 1, num: 38,
+        q: "Constraining a model to make it simpler and reduce the risk of overfitting is called",
+        options: { A: "feature reduction", B: "Underfitting the Training data", C: "Overfitting the Training Data", D: "regularization" },
+        correct: "D",
+        exp: "تقييد النموذج وجعله أبسط لتقليل احتمالية الـ Overfitting يُسمى المعايرة أو التنظيم (Regularization)."
+    },
+    {
+        ch: 1, num: 39,
+        q: "The particular performance measure is called training set, and it is often used in classification tasks.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة، فمقياس الأداء هو الدقة (Accuracy)، أما Training Set فهي بيانات التدريب نفسها وليست مقياس أداء."
+    },
+    {
+        ch: 1, num: 40,
+        q: "Machine Learning system cannot adapt to new data.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة، لأن من أهم ميزات تعلم الآلة قدرته على التكيف مع البيانات الجديدة وتحديث نماذجه."
+    },
+    {
+        ch: 1, num: 41,
+        q: "What is the main characteristic of unsupervised learning?",
+        options: { A: "The training set includes desired solutions", B: "The training data is unlabeled", C: "It often has plenty of unlabeled instances", D: "The agent can observe the environment" },
+        correct: "B",
+        exp: "التعلم غير الإشرافي يتعامل حصراً مع بيانات غير موسومة ولا تحتوي على إجابات مسبقة (Unlabeled Data)."
+    },
+    {
+        ch: 1, num: 42,
+        q: "In Machine Learning Approach is much shorter, easier to maintain, and less accurate.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة لأن نهج الـ Machine Learning يكون أكثر دقة (More accurate) وليس أقل."
+    },
+    {
+        ch: 1, num: 43,
+        q: "The particular performance measure is called accuracy, and it is often used in classification tasks.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مقياس الدقة (Accuracy) شائع جداً واستخدامه أساسي في مهام التصنيف."
+    },
+    {
+        ch: 1, num: 44,
+        q: "What is The Most Important Supervised Learning Algorithms?",
+        options: { A: "Apriori", B: "K-Means", C: "k-Nearest Neighbors", D: "All of them are true" },
+        correct: "C",
+        exp: "خوارزمية k-Nearest Neighbors هي الوحيدة هنا التي تنتمي للـ Supervised Learning، بينما K-Means و Apriori تنتميان للـ Unsupervised Learning."
+    },
+    {
+        ch: 1, num: 45,
+        q: "In online learning, if good data is fed to the system, the system's performance will gradually decline",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة، أداء النظام يتدهور تدريجياً إذا تم تغذيته ببيانات فاسدة أو رديئة (Bad data) وليس جيدة."
+    },
+    {
+        ch: 1, num: 46,
+        q: "Which type of learning relies on a teacher or desired solutions?",
+        options: { A: "Supervised Learning", B: "Unsupervised Learning", C: "Semi-supervised Learning", D: "Reinforcement Learning" },
+        correct: "B",
+        exp: "الإجابة المعتمدة في المفتاح الرسمي هي Unsupervised Learning، حيث يتعلم النموذج من البيانات بدون وجود حلول مطلوبة مسبقة أو معلم يزوّده بالتسميات (Labels) مباشرة."
+    },
+    {
+        ch: 1, num: 47,
+        q: "What are the Solutions for Underfitting?",
+        options: { A: "Select a more powerful model", B: "Feed better features", C: "Reduce the constraints on the model", D: "All of them are true" },
+        correct: "D",
+        exp: "جميع الحلول المذكورة تعالج الـ Underfitting: اختيار نموذج أكثر قوة، تزويده بميزات أفضل، وتقليل القيود المفروضة عليه."
+    },
+    {
+        ch: 1, num: 48,
+        q: "It loads part of the data, runs a training step on that data, and repeats the process until it has run on all of the data.",
+        options: { A: "Machine learning", B: "Deep learning", C: "Out-of-core learning", D: "Batch learning" },
+        correct: "C",
+        exp: "هذا هو مفهوم التعلم خارج الذاكرة (Out-of-core Learning) لتدريب النماذج على بيانات أضخم من سعة الـ RAM."
+    },
+    {
+        ch: 1, num: 49,
+        q: "If you want a batch learning system to know about new data it needs to be trained from scratch on the full dataset.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، أنظمة الـ Batch Learning لا يمكنها التعلم تدريجياً، ويجب إعادة تدريبها من الصفر على كامل البيانات القديمة والجديدة."
+    },
+    {
+        ch: 1, num: 50,
+        q: "One important parameter of online learning systems is how fast they should adapt to changing data this is called learning rate",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، المعامل الذي يحدد سرعة تكيف النظام مع البيانات الجديدة في الـ Online Learning هو معدل التعلم (Learning Rate)."
+    },
+    {
+        ch: 1, num: 51,
+        q: "an attribute is a datatype, whereas a feature means an attribute plus its value.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، السمة (Attribute) تمثل نوع الحقل (مثل العمر)، بينما الخاصية (Feature) تشمل السمة مع قيمتها."
+    },
+    {
+        ch: 1, num: 52,
+        q: "What is mini-batches in Online Learning?",
+        options: { A: "individually of instances", B: "large groups of instances", C: "small groups of instances", D: "None of them" },
+        correct: "A",
+        exp: "الـ Mini-batches في Online Learning تعني معالجة البيانات فردياً (Individually of instances)، أي عينة واحدة في كل خطوة تدريب، مما يسمح بالتحديث الفوري السريع."
+    },
+    // ================= CHAPTER 2: END-TO-END MACHINE LEARNING PROJECT =================
+    {
+        ch: 2, num: 1,
+        q: "If the training set is very large, you may want to sample an exploration set, to make manipulations easy and fast",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، عند التعامل مع مجموعات بيانات ضخمة يُفضل أخذ عينة استكشافية (Exploration Set) لتسريع وتسهيل عمليات الفحص والتجريب الأولي."
+    },
+    {
+        ch: 2, num: 2,
+        q: "Random Forests work by training many Decision Trees on random subsets of the features",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تعمل غابات القرارات (Random Forests) عبر تدريب عدة أشجار قرار على مجموعات فرعية عشوائية من الخصائص لتقليل التباين (Variance)."
+    },
+    {
+        ch: 2, num: 3,
+        q: "Scikit-Learn provides a handy class to take care of missing values.........",
+        options: { A: "SimpleImputer", B: "MinMaxScaler", C: "OneHotEncoder", D: "None of Them" },
+        correct: "A",
+        exp: "فئة <code>SimpleImputer</code> في Scikit-Learn مخصصة لتعويض القيم المفقودة (Missing Values) بالمتوسط، الوسيط، أو القيمة الأكثر تكراراً."
+    },
+    {
+        ch: 2, num: 4,
+        q: "Both the...... and the...... are ways to measure the distance between two vectors",
+        options: { A: "RMSE, ESMR", B: "RMSE, MAE", C: "MAE, MESR", D: "None of Them" },
+        correct: "B",
+        exp: "كل من الـ RMSE و MAE هما مقاييس رياضية لمعرفة المسافة بين متجه التنبؤات ومتجه القيم الفعلية."
+    },
+    {
+        ch: 2, num: 5,
+        q: "When it is close to 1, it means that there is a strong........ correlation.",
+        options: { A: "equal", B: "negative", C: "positive", D: "None of Them" },
+        correct: "C",
+        exp: "اقتراب معامل الارتباط الخطي (Correlation Coefficient) من 1 يعني وجود ارتباط طردي أو موجب قوي (Strong Positive Correlation)."
+    },
+    {
+        ch: 2, num: 6,
+        q: "The correlation coefficient ranges from -1 to 1.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، معامل الارتباط القياسي (Pearson's r) ينحصر دائماً بين -1 و +1."
+    },
+    {
+        ch: 2, num: 7,
+        q: "The correlation coefficient ranges from.......",
+        options: { A: "0 to 1.", B: "-1 to 1.", C: "1 to 2.", D: "None of Them" },
+        correct: "B",
+        exp: "نطاق معامل الارتباط هو من -1 إلى +1."
+    },
+    {
+        ch: 2, num: 8,
+        q: "Computing the.......... corresponds to the Euclidean norm. It is also called the l2 norm",
+        options: { A: "MSRE", B: "RMSE", C: "ESMR", D: "MEA" },
+        correct: "B",
+        exp: "حساب الـ RMSE يطابق هندسياً الـ Euclidean Norm والمعروف بالرمز ℓ2 norm."
+    },
+    {
+        ch: 2, num: 9,
+        q: "In Min-max Scaling, Values are shifted and rescaled so that they end up ranging from.........",
+        options: { A: "-1 to 1.", B: "0 to 1.", C: "0 to 2.", D: "None of Them" },
+        correct: "B",
+        exp: "في الـ Min-max Scaling (أو Normalization) يتم ضبط وتعديل مقياس القيم لتكون محصورة بين 0 و 1."
+    },
+    {
+        ch: 2, num: 10,
+        q: "Scikit-Learn provides a transformer called MinMaxScaler for normalization.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، المحول المسؤول عن عملية الـ Normalization بتحجيم البيانات بين 0 و 1 هو <code>MinMaxScaler</code>."
+    },
+    {
+        ch: 2, num: 11,
+        q: "standardization bound values to a specific range",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الـ Standardization تجعل المتوسط 0 والانحراف المعياري 1 دون تقييد القيم بمدى محدد (على عكس Min-max Scaling)."
+    },
+    {
+        ch: 2, num: 12,
+        q: "RMSE(X,h) is the number of instances in the dataset.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، $RMSE(X, h)$ هي دالة تكلفة (Cost Function) لقياس دقة تنبؤ الفرضية h، بينما يرمز لعدد العينات بالحرف $m$."
+    },
+    {
+        ch: 2, num: 13,
+        q: "Computing the....... corresponds to the l1 norm, noted ||.||1. This is sometimes called the Manhattan norm.",
+        options: { A: "ESMR", B: "RMSE", C: "ESMR", D: "MAE" },
+        correct: "D",
+        exp: "حساب الـ MAE (Mean Absolute Error) يتطابق مع معيار ℓ1 ويسمى أيضاً Manhattan Norm."
+    },
+    {
+        ch: 2, num: 14,
+        q: "Scikit-Learn provides a........... class to convert categorical values into one-hot vectors.",
+        options: { A: "MinMaxScaler", B: "OneHotEncoder", C: "StandardScaler", D: "None of Them" },
+        correct: "B",
+        exp: "الفئة المسؤولة عن تحويل المتغيرات الفئوية (Categorical) إلى متجهات One-Hot هي <code>OneHotEncoder</code>."
+    },
+    {
+        ch: 2, num: 15,
+        q: "It gives an idea of how much error the system typically makes in its predictions, with a higher weight for large errors.",
+        options: { A: "MSRE", B: "RMSE", C: "ESMR", D: "MESR" },
+        correct: "B",
+        exp: "مقياس الـ RMSE يعطي وزناً أكبر للأخطاء الكبيرة بسبب تربيع الفروق (Squaring) قبل حساب المتوسط والجذر."
+    },
+    {
+        ch: 2, num: 16,
+        q: "If the dataset is not too large, you can easily compute the standard correlation coefficient between every pair of attributes using the....... method.",
+        options: { A: "info()", B: "corr()", C: "tail()", D: "head()" },
+        correct: "B",
+        exp: "تُستخدم الدالة <code>corr()</code> في مكتبة Pandas لحساب مصفوفة معاملات الارتباط بين الأعمدة الرقمية."
+    },
+    {
+        ch: 2, num: 17,
+        q: "it will use cross-validation to evaluate all the possible combinations of hyperparameter values.",
+        options: { A: "Grid Search", B: "Randomized Search", C: "Both of Them", D: "None of Them" },
+        correct: "A",
+        exp: "تقنية **Grid Search** تقوم بتجربة وتقييم كافة التوافيق الممكنة لقيم الـ Hyperparameters عبر الـ Cross-validation."
+    },
+    {
+        ch: 2, num: 18,
+        q: "To get information about dataset, in python we use........ method",
+        options: { A: "info()", B: "information()", C: "details()", D: "None of Them" },
+        correct: "A",
+        exp: "الدالة <code>info()</code> في Pandas تعطي وصفاً سريعاً لهيكل البيانات وأنواعها والقيم غير الفارغة."
+    },
+    {
+        ch: 2, num: 19,
+        q: "To convert these categories from text to numbers. We can use Scikit-Learn's Ordinal Encoder class.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يُستخدم <code>OrdinalEncoder</code> لتحويل الفئات النصية إلى قيم رقمية متسلسلة."
+    },
+    {
+        ch: 2, num: 20,
+        q: "In Min-max Scaling, Values are shifted and rescaled so that they end up ranging from -1 to 1",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الـ Min-max Scaling القياسي يعيد تحجيم القيم لتنحصر بين 0 و 1 وليس -1 و 1."
+    },
+    {
+        ch: 2, num: 21,
+        q: "Scikit-Learn provides a OneHotEncoder class to convert categorical values into....... vectors.",
+        options: { A: "one-hot", B: "Two-hot", C: "Three-hot", D: "None of Them" },
+        correct: "A",
+        exp: "الاسم مشتق من نوع المتجهات التي ينتجها وهي متجهات الـ **one-hot**."
+    },
+    {
+        ch: 2, num: 22,
+        q: "housing.tgz contains a.......... file called housing.csv with all the data.",
+        options: { A: "xls", B: "docs", C: "comma-separated values", D: "None of Them" },
+        correct: "C",
+        exp: "امتداد .csv يعني ملف قيم مفصولة بفواصل (Comma-Separated Values)."
+    },
+    {
+        ch: 2, num: 23,
+        q: "When it is close to -1, it means that there is a strong positive correlation",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، اقتراب القيمة من -1 يعني ارتباطاً سالباً قوياً (Strong Negative Correlation) وليس موجباً."
+    },
+    {
+        ch: 2, num: 24,
+        q: "Standardization is....... affected by outliers",
+        options: { A: "more", B: "high", C: "much less", D: "None of Them" },
+        correct: "C",
+        exp: "عملية الـ Standardization أقل تأثراً بكثير بالقيم الشاذة (Much less affected by outliers) مقارنة بالـ Min-max scaling."
+    },
+    {
+        ch: 2, num: 25,
+        q: "Coefficients close to 1 mean that there is no linear correlation.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، معامل الارتباط القريب من 0 هو الذي يدل على انعدام الارتباط الخطي، أما القريب من 1 فيدل على ارتباط موجب قوي."
+    },
+    {
+        ch: 2, num: 26,
+        q: "Pipelines is a sequence of data processing components.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، خط أنابيب البيانات (Pipeline) يمثل تسلسلاً متتابعاً لمعالجة وتحويل البيانات."
+    },
+    {
+        ch: 2, num: 27,
+        q: "Most ML algorithms prefer to work with numbers",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تفضل وتتطلب أغلب خوارزميات التعلم الآلي التعامل مع القيم الرقمية بدلاً من النصوص."
+    },
+    {
+        ch: 2, num: 28,
+        q: "Most ML algorithms prefer to work with.......",
+        options: { A: "numbers", B: "text", C: "images", D: "None of Them" },
+        correct: "A",
+        exp: "خوارزميات الـ ML تفضل معالجة الأرقام (Numbers)."
+    },
+    {
+        ch: 2, num: 29,
+        q: "Scikit-Learn provides a transformer called........... for normalization.",
+        options: { A: "SimpleImputer", B: "StandardScaler", C: "MinMaxScaler", D: "None of Them" },
+        correct: "C",
+        exp: "المحول المخصص للـ Normalization في مكتبة Scikit-Learn هو <code>MinMaxScaler</code>."
+    },
+    {
+        ch: 2, num: 30,
+        q: "With few exceptions, ML algorithms don't perform well when the input numerical attributes have very....... scales.",
+        options: { A: "same", B: "different", C: "equal", D: "None of Them" },
+        correct: "B",
+        exp: "خوارزميات الـ ML تتراجع جودتها إذا تباينت مقاييس المتغيرات بشكل حاد (Very different scales)."
+    },
+    {
+        ch: 2, num: 31,
+        q: "To get the data you need to have Python installed.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، لتشغيل سكربتات تحميل وجلب البيانات البرمجية في الكتاب تحتاج إلى بيئة بايثون جاهزة."
+    },
+    {
+        ch: 2, num: 32,
+        q: "In Min-max Scaling, Values are shifted and rescaled so that they end up ranging from 0 to 1.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الهدف الأساسي من الـ Min-max scaling هو ضغط وتحجيم القيم بين 0 و 1."
+    },
+    {
+        ch: 2, num: 33,
+        q: "The........ the norm index, the......... it focuses on large values and neglects small ones.",
+        options: { A: "Lower, little", B: "higher, more", C: "Lower, more", D: "higher, little" },
+        correct: "B",
+        exp: "كلما ارتفع مؤشر المعيار (Higher norm index)، زاد تركيزه على القيم الكبيرة وتجاهله للقيم الصغيرة."
+    },
+    {
+        ch: 2, num: 34,
+        q: "Computing the MAE corresponds to the l1 norm, noted ||.||1. This is sometimes called the Euclidean norm.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، معيار ℓ1 يسمى Manhattan Norm وليس Euclidean Norm (الذي يخص ℓ2 و RMSE)."
+    },
+    {
+        ch: 2, num: 35,
+        q: "RMSE(X,h) is the cost function measured on the set of examples using your hypothesis h.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الـ RMSE هي دالة التكلفة (Cost Function) المطبقة لتقييم فرضية النموذج h."
+    },
+    {
+        ch: 2, num: 36,
+        q: "The common way to get all attributes to have the same scale.........",
+        options: { A: "min-max scaling", B: "standardization", C: "Both of Them", D: "None of Them" },
+        correct: "C",
+        exp: "الطريقتان الأساسيتان لمعايرة المتغيرات إلى مقياس موحد هما: Min-max scaling و Standardization."
+    },
+    {
+        ch: 2, num: 37,
+        q: "When the coefficient is close to -1, it means that there is a strong negative correlation.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، القيمة القريبة من -1 تعني علاقة عكسية خطية قوية."
+    },
+    {
+        ch: 2, num: 38,
+        q: "With few exceptions, ML algorithms don't perform well when the input numerical attributes have very different scales.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الخوارزميات تتأثر سلباً بالاختلاف الشديد في مقاييس الميزات، ولذلك يلجأ المطور لـ Feature Scaling."
+    },
+    {
+        ch: 2, num: 39,
+        q: "Both the RMSE and the MAE are ways to measure the distance between the vector of predictions and the vector of target values.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، كلاهما يقيسان المسافة الإحصائية بين قيم التنبؤ والقيم الحقيقية."
+    },
+    {
+        ch: 2, num: 40,
+        q: "There are two common ways to get all attributes to have the same scale: min-max scaling and standardization.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هاتان هما الطريقتان القياسيتان المتبعتان في مرحلة تحضير البيانات."
+    },
+    {
+        ch: 2, num: 41,
+        q: "When the coefficient is close to -1, it means that there is a strong......... correlation.",
+        options: { A: "strong", B: "negative", C: "equal", D: "None of Them" },
+        correct: "B",
+        exp: "اقتراب المعامل من -1 يرمز إلى ارتباط سالب (Negative Correlation)."
+    },
+    {
+        ch: 2, num: 42,
+        q: "Scikit-Learn provides a OneHotEncoder class to convert categorical values into one-hot vectors.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذه هي الوظيفة المباشرة لـ <code>OneHotEncoder</code>."
+    },
+    {
+        ch: 2, num: 43,
+        q: "Computing the RMSE corresponds to the Manhattan norm. It is also called the l2 norm, noted ||.||2 (or just ||.||).",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، حساب RMSE يوافق الـ Euclidean Norm وليس الـ Manhattan Norm."
+    },
+    {
+        ch: 2, num: 44,
+        q: "Scikit-Learn provides a handy class to take care of missing values: SimpleImputer.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، <code>SimpleImputer</code> هي الفئة المستخدمة لمعالجة القيم المفقودة."
+    },
+    {
+        ch: 2, num: 45,
+        q: "Pipelines are very common in ML systems, since there is a lot of data to manipulate.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تستخدم الـ Pipelines بشكل واسع لترتيب وتنسيق مراحل تحويل وتجهيز البيانات."
+    },
+    {
+        ch: 2, num: 46,
+        q: "Instead of trying out all possible combinations, it evaluates a given number of random combinations",
+        options: { A: "Grid Search", B: "Randomized Search", C: "Both of Them", D: "None of Them" },
+        correct: "B",
+        exp: "تقنية **Randomized Search** تقوم باختبار عدد عشوائي محدد من التوافيق لتوفير الوقت والموارد الحسابية."
+    },
+    {
+        ch: 2, num: 47,
+        q: "The higher the norm index, the more it focuses on large values and neglects small ones.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، كلما زاد دليل المعيار كبرت حساسيته للقيم المتطرفة والكبيرة."
+    },
+    {
+        ch: 2, num: 48,
+        q: "Scikit-Learn provides a transformer called.......... for standardization.",
+        options: { A: "MinMaxScaler", B: "StandardScaler", C: "OneHotEncoder", D: "SimpleImputer" },
+        correct: "B",
+        exp: "الأداة الخاصة بالـ Standardization هي <code>StandardScaler</code>."
+    },
+    {
+        ch: 2, num: 49,
+        q: "One of the most important transformations you need to apply to your data is feature scaling.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، معايرة الميزات (Feature Scaling) من أهم الخطوات التحويلية لضمان عمل خوارزميات التعلم الآلي بكفاءة."
+    },
+    {
+        ch: 2, num: 50,
+        q: "The correlation coefficient ranges from -2 to 0.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، معامل الارتباط ينحصر بين -1 و +1."
+    },
+    {
+        ch: 2, num: 51,
+        q: "Building a model on top of many other models is called Ensemble Learning",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، دمج عدة نماذج معاً للتنبؤ يسمى التعلم التجميعي (Ensemble Learning)."
+    },
+    {
+        ch: 2, num: 52,
+        q: "The train a Linear Regression model, then underfitting the training data.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، في مشروع الإسكان بالكتاب، أدى تدريب نموذج الانحدار الخطي البسيط إلى مشكلة Underfitting نظراً لبساطته."
+    },
+    {
+        ch: 2, num: 53,
+        q: "The train a Decision TreeRegressor model, then overfitting the training data",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، شجرة القرار غير المقيدة حفظت بيانات التدريب بالكامل محققة خطأ صفر، وهو Overfitting حاد."
+    },
+    {
+        ch: 2, num: 54,
+        q: ".............. is representative of the various categories of incomes in the whole dataset.",
+        options: { A: "Test set", B: "Training set", C: "Both of Them", D: "None of Them" },
+        correct: "A",
+        exp: "باستخدام العينة الطبقية (Stratified Sampling)، يتم التأكد من أن مجموعة الاختبار (Test Set) ممثلة بدقة لشرائح الدخل في المجتمع الإحصائي."
+    },
+    {
+        ch: 2, num: 55,
+        q: "Computing the RMSE corresponds to the Euclidean norm. It is also called the l2 norm, noted ||.||2 (or just ||.||).",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الـ RMSE يتطابق مع المعيار الإقليدي ويدعى ℓ2 norm."
+    },
+    {
+        ch: 2, num: 56,
+        q: "Scikit-Learn provides a transformer called StandardScaler for standardization.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، <code>StandardScaler</code> مخصص لحساب المتوسط والانحراف المعياري وتطبيق الـ Standardization."
+    },
+    {
+        ch: 2, num: 57,
+        q: "To get summary of each numerical attribute in dataset, in python we use......method.",
+        options: { A: ".describe()", B: ".shape()", C: ".info()", D: ".head()" },
+        correct: "A",
+        exp: "الدالة <code>.describe()</code> تعطي ملخصاً إحصائياً شاملاً (المتوسط، الانحراف، الربيعيات، القيم القصوى والدنيا)."
+    },
+    {
+        ch: 2, num: 58,
+        q: "Coefficients close to 0 mean that there is",
+        options: { A: "no linear correlation.", B: "strong positive correlation", C: "strong negative correlation", D: "None of Them" },
+        correct: "A",
+        exp: "قيمة معامل الارتباط القريبة من الصفر تعني انعدام الارتباط الخطي بين المتغيرين."
+    },
+    {
+        ch: 2, num: 59,
+        q: "RMSE(X, h), X is the number of instances in the dataset.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الحرف $X$ يمثل مصفوفة الميزات والبيانات (Feature Matrix)، بينما عدد العينات يرمز له بالرمز $m$."
+    },
+    // ================= CHAPTER 3: CLASSIFICATION =================
+    {
+        ch: 3, num: 1,
+        q: "images in MNIST Dataset are.........",
+        options: { A: "coloerd images", B: "white and black images", C: "grey images", D: "none of them" },
+        correct: "B",
+        exp: "صور MNIST Dataset عبارة عن صور أبيض وأسود (White and black images)، حيث يتم تمثيل كل بكسل بقيمة شدة إضاءة واحدة بدلاً من قنوات لونية متعددة."
+    },
+    {
+        ch: 3, num: 2,
+        q: "in MNIST Dataset, A...... key describing the dataset.",
+        options: { A: "DESCR", B: "data", C: "target", D: "none of them" },
+        correct: "A",
+        exp: "المفتاح <code>DESCR</code> (Description) في كائن البيانات الذي يتم تحميله عبر Scikit-Learn يحتوي على وصف تفصيلي للـ Dataset ومصدرها."
+    },
+    {
+        ch: 3, num: 3,
+        q: "in MNIST Dataset, A......... key containing an array with one row per instance and one column per feature.",
+        options: { A: "DESCR", B: "data", C: "target", D: "none of them" },
+        correct: "B",
+        exp: "المفتاح <code>data</code> يحتوي على مصفوفة ثنائية الأبعاد (2D array)، حيث يمثل كل صف عينة (Instance) وكل عمود يمثل خاصية (Feature)."
+    },
+    {
+        ch: 3, num: 4,
+        q: "in MNIST Dataset, A........ key containing an array with the labels.",
+        options: { A: "DESCR", B: "data", C: "target", D: "none of them" },
+        correct: "C",
+        exp: "المفتاح <code>target</code> يحتوي على مصفوفة التسميات الحقيقية (Labels) للبيانات."
+    },
+    {
+        ch: 3, num: 5,
+        q: "in MNIST Dataset, Each image is........... pixels",
+        options: { A: "28×28", B: "30×30", C: "32×32", D: "none of them" },
+        correct: "A",
+        exp: "كل صورة في مجموعة MNIST أبعادها هي 28 بكسل عرضاً و 28 بكسل ارتفاعاً ($28 \\times 28$)."
+    },
+    {
+        ch: 3, num: 6,
+        q: "in MNIST Dataset, Each image is labeled with the letter it represents.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، مجموعة MNIST تحتوي على أرقام مكتوبة بخط اليد (Digits من 0 إلى 9) وليس حروفاً (Letters)."
+    },
+    {
+        ch: 3, num: 7,
+        q: "MNIST Dataset It is a set of.......... small images of digits handwritten",
+        options: { A: "7000", B: "70,000", C: "75,000", D: "700,000" },
+        correct: "B",
+        exp: "تحتوي مجموعة MNIST على 70,000 صورة رقمية صغيرة لأرقام مكتوبة باليد."
+    },
+    {
+        ch: 3, num: 8,
+        q: "MNIST Dataset It is a set of small images of............. by high school students and employees of the US Census Bureau.",
+        options: { A: "digits handwritten", B: "letters handwritten", C: "words handwritten", D: "none of them" },
+        correct: "A",
+        exp: "تم جمع صور الأرقام المكتوبة بخط اليد (Handwritten digits) من طلاب مدارس ثانوية وموظفي مكتب التعداد الأمريكي."
+    },
+    {
+        ch: 3, num: 9,
+        q: "in MNIST Dataset, Each image is........... features",
+        options: { A: "784", B: "785", C: "770", D: "none of them" },
+        correct: "A",
+        exp: "كل صورة أبعادها $28 \\times 28$ ينتج عنها 784 خاصية (Features)، حيث يمثل كل بكسل خاصية تعبر عن شدة الإضاءة من 0 إلى 255."
+    },
+    {
+        ch: 3, num: 10,
+        q: "The SGDClassifier relies on randomness during training (hence the name 'stochastic').",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يعتمد مصنف SGD (Stochastic Gradient Descent) على العشوائية في اختيار العينات أثناء التدريب، ولذلك سمي Stochastic."
+    },
+    {
+        ch: 3, num: 11,
+        q: "Just like the............ function, ............. performs K-fold cross-validation, but instead of returning the evaluation scores, it returns the predictions made on each test fold.",
+        options: { A: "cross_val_score(), cross_val_predict()", B: "cross_val_predict(), cross_val_score()", C: "cross_val_test(), cross_val_score()", D: "none of them" },
+        correct: "A",
+        exp: "تماماً مثل دالة <code>cross_val_score()</code>، فإن دالة <code>cross_val_predict()</code> تقوم بعمل K-fold cross-validation، لكنها ترجع التنبؤات (Predictions) بدلاً من درجات التقييم."
+    },
+    {
+        ch: 3, num: 12,
+        q: "............ evaluates the discriminative power of the test.",
+        options: { A: "YI", B: "MCC", C: "DSC", D: "none of them" },
+        correct: "A",
+        exp: "مؤشر يودن **YI** (Youden's Index) يقيم القوة التمييزية (Discriminative power) للاختبار أو النموذج التشخيصي."
+    },
+    {
+        ch: 3, num: 13,
+        q: "............ represents the correlation between the observed and predicted classifications.",
+        options: { A: "Youden's Index", B: "Matthews Correlation Coefficient", C: "F-measure", D: "none of them" },
+        correct: "B",
+        exp: "معامل ارتباط ماثيوز **MCC** (Matthews Correlation Coefficient) يقيس معامل الارتباط الفعلي بين التصنيفات الملاحظة والتصنيفات المتوقعة."
+    },
+    {
+        ch: 3, num: 14,
+        q: "Each row in a confusion matrix represents an......",
+        options: { A: "actual class", B: "predicted class", C: "both of them", D: "none of them" },
+        correct: "A",
+        exp: "في مصفوفة الارتباك (Confusion Matrix) في Scikit-Learn، يمثل كل صف (Row) الفئة الفعلية الحقيقية (Actual Class)."
+    },
+    {
+        ch: 3, num: 15,
+        q: "precision_recall_curve() computes........... for all possible thresholds.",
+        options: { A: "precision", B: "recall", C: "precision and recall", D: "F-measure" },
+        correct: "C",
+        exp: "تقوم الدالة <code>precision_recall_curve()</code> بحساب كل من الدقة (Precision) والاسترجاع (Recall) عند جميع العتبات (Thresholds) المحتملة."
+    },
+    {
+        ch: 3, num: 16,
+        q: "If that score is greater than a threshold, it assigns the instance to the............",
+        options: { A: "positive class", B: "negative class", C: "both of them", D: "none of them" },
+        correct: "A",
+        exp: "في نماذج التصنيف، إذا كانت النتيجة المحسوبة بواسطة Decision Function أعلى من العتبة (Threshold)، يتم تصنيف العينة كفئة إيجابية (Positive class)."
+    },
+    {
+        ch: 3, num: 17,
+        q: ".......... is the inverse precision.",
+        options: { A: "True Negative Rate", B: "Positive Prediction Value", C: "Negative Predictive Value", D: "none of them" },
+        correct: "C",
+        exp: "القيمة التنبؤية السالبة (Negative Predictive Value - NPV) تُعتبر النظير العكسي لـ Precision (التي تمثل Positive Predictive Value)."
+    },
+    {
+        ch: 3, num: 18,
+        q: "The higher the recall (TPR), the more false positives (FPR) the classifier produces.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، في منحنى ROC، كلما زاد معدل الاسترجاع (TPR)، زاد بالتبعية معدل الإيجابيات الكاذبة (FPR)."
+    },
+    {
+        ch: 3, num: 19,
+        q: "Youden's Index (YI) =.............",
+        options: { A: "TPR + TNR - 1", B: "TPR + TNR + 1", C: "TPR + NPV - 1", D: "TPR + PPV - 1" },
+        correct: "A",
+        exp: "الصيغة الرياضية لمؤشر يودن هي: $YI = TPR + TNR - 1$ (أو Sensitivity + Specificity - 1)."
+    },
+    {
+        ch: 3, num: 20,
+        q: "SGD is stands for..............",
+        options: { A: "Stochastic Gradient Describtion", B: "Stochastic Gradient Descent", C: "Stochastic Graded Descent", D: "none of them" },
+        correct: "B",
+        exp: "اختصار SGD يعني الانحدار التدريجي العشوائي (Stochastic Gradient Descent)."
+    },
+    {
+        ch: 3, num: 21,
+        q: "StratifiedKFold class performs stratified sampling to produce folds that contain a representative ratio of each class.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يقوم <code>StratifiedKFold</code> بتقسيم البيانات إلى مجموعات تحافظ على نفس النسبة التمثيلية لكل فئة في مجموعة البيانات الأصلية."
+    },
+    {
+        ch: 3, num: 22,
+        q: "K-fold cross-validation means splitting the training set into K folds, then making predictions and evaluating them on each fold using a model trained on the remaining folds.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذا هو التعريف الدقيق لـ K-fold cross-validation."
+    },
+    {
+        ch: 3, num: 23,
+        q: "Each column in a confusion matrix represents an......",
+        options: { A: "actual class", B: "predicted class", C: "both of them", D: "none of them" },
+        correct: "B",
+        exp: "في مصفوفة الارتباك، يمثل كل عمود (Column) الفئة المتوقعة بواسطة النموذج (Predicted Class)."
+    },
+    {
+        ch: 3, num: 24,
+        q: ".........defined as a ratio between the correctly classified samples to the total number of samples.",
+        options: { A: "Accuracy (ACC)", B: "Error Rate (ERR)", C: "Sensitivity", D: "Specificity" },
+        correct: "A",
+        exp: "الدقة (Accuracy) هي نسبة العينات المصنفة بشكل صحيح (سواء موجبة أو سالبة) إلى إجمالي عدد العينات."
+    },
+    {
+        ch: 3, num: 25,
+        q: "What is the difference between a binary classification algorithm and a multiclass classification algorithm?",
+        options: { A: "A binary classification algorithm is more accurate than a multiclass classification algorithm.", B: "A binary classification algorithm can only predict two classes, while a multiclass classification algorithm can predict three or more classes.", C: "A binary classification algorithm is not as flexible as a multiclass classification algorithm.", D: "A binary classification algorithm is more computationally expensive than a multiclass classification algorithm." },
+        correct: "B",
+        exp: "المصنف الثنائي (Binary) يصنف بين فئتين فقط (مثل نعم/لا)، بينما المصنف متعدد الفئات (Multiclass) يميز بين ثلاث فئات أو أكثر."
+    },
+    {
+        ch: 3, num: 26,
+        q: "K-fold cross-validation is a method evaluating the performance of a machine learning model.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، K-fold cross-validation هي طريقة أساسية ومعيارية لتقييم أداء وتعميم نماذج التعلم الآلي."
+    },
+    {
+        ch: 3, num: 27,
+        q: "The purpose of a confusion matrix is identifying the most important features in a dataset",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الغرض من مصفوفة الارتباك هو تقييم أداء المصنف ومعرفة أنواع الأخطاء (False Positives / False Negatives)، وليس تحديد أهمية الخصائص."
+    },
+    {
+        ch: 3, num: 28,
+        q: "........... performs K-fold cross-validation and returns the predictions made on each test fold.",
+        options: { A: "cross_test_predict()", B: "cross_val_predict()", C: "cross_val_score()", D: "none of them" },
+        correct: "B",
+        exp: "الدالة التي تُرجع التنبؤات التي تم إنتاجها على كل طية اختبار هي <code>cross_val_predict()</code>."
+    },
+    {
+        ch: 3, num: 29,
+        q: "the classifier will only get a.......... F1 score if both recall and precision are.........",
+        options: { A: "low, high", B: "high, low", C: "high, high", D: "none of them" },
+        correct: "C",
+        exp: "نظراً لأن مقياس F1 Score هو المتوسط التوافقي (Harmonic mean)، فلن يحصل المصنف على F1 Score مرتفع إلا إذا كان كل من Precision و Recall مرتفعين معاً."
+    },
+    {
+        ch: 3, num: 30,
+        q: "Which of the following is NOT a type of classification problem",
+        options: { A: "Regression", B: "Binary classification", C: "Multi-class classification", D: "none of them" },
+        correct: "A",
+        exp: "الانحدار (Regression) مهمة مختلفة للتنبؤ بقيم عددية متصلة، وليس نوعاً من مهام التصنيف (Classification)."
+    },
+    {
+        ch: 3, num: 31,
+        q: "SGD well suited for........... learning.",
+        options: { A: "batch", B: "online", C: "all of them", D: "none of them" },
+        correct: "B",
+        exp: "خوارزمية SGD مناسبة جداً للتعلم الفوري المتدفق (Online learning) لأنها تعالج البيانات عينة بعينة بشكل مستقل."
+    },
+    {
+        ch: 3, num: 32,
+        q: "The RandomForestClassifier class have has a predict_proba() instead of decision_function() method.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مصنف الغابات العشوائية في Scikit-Learn لا يحتوي على دالة <code>decision_function()</code> بل يوفر دالة <code>predict_proba()</code> التي تُرجع احتمالية كل فئة."
+    },
+    {
+        ch: 3, num: 33,
+        q: "A much better way to evaluate the performance of a classifier is to look at the confusion matrix.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مصفوفة الارتباك تعطي رؤية أعمق وأشمل بكثير من مجرد النظر إلى الدقة العامة (Accuracy) خاصة في البيانات غير المتوازنة."
+    },
+    {
+        ch: 3, num: 34,
+        q: "............ represents the ratio of the correctly classified negative samples to the total number of negative samples.",
+        options: { A: "Specificity", B: "True Negative Rate", C: "both of them", D: "none of them" },
+        correct: "C",
+        exp: "نسبة العينات السالبة المصنفة بشكل صحيح إلى إجمالي العينات السالبة تُعرف بكل من Specificity و True Negative Rate (TNR)."
+    },
+    {
+        ch: 3, num: 35,
+        q: "What is the difference between StratifiedKFold and regular K-fold cross-validation",
+        options: { A: "StratifiedKFold performs stratified sampling, while regular K-fold does not", B: "StratifiedKFold is always slower than regular K-fold", C: "StratifiedKFold is only useful for imbalanced datasets", D: "There is no difference between StratifiedKFold and regular K-fold" },
+        correct: "A",
+        exp: "الفرق الجوهري هو أن <code>StratifiedKFold</code> يعتمد أسلوب المعاينة الطبقية لضمان تمثيل متوازن لنسب الفئات في كل طية."
+    },
+    {
+        ch: 3, num: 36,
+        q: "A perfect classifier would have only true positives and false negatives",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، المصنف المثالي يحتوي فقط على إيجابيات حقيقية (True Positives) وسلبيات حقيقية (True Negatives)، بدون أي سلبيات أو إيجابيات كاذبة."
+    },
+    {
+        ch: 3, num: 37,
+        q: "SGD deals with training instances independently, one at a time (which makes SGD well suited for online learning).",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، معالجة كل عينة تدريب على حدة وبشكل مستقل تجعل SGD ممتازاً للـ Online learning والتعامل مع البيانات الضخمة."
+    },
+    {
+        ch: 3, num: 38,
+        q: "A binary classification algorithm is more computationally expensive than a multiclass classification algorithm.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، التصنيف متعدد الفئات أكثر تعقيداً واستهلاكاً للعمليات الحسابية من التصنيف الثنائي."
+    },
+    {
+        ch: 3, num: 39,
+        q: "The confusion matrix of perfect classifier would have.......... values only on its main diagonal",
+        options: { A: "zero", B: "ones", C: "nonzero", D: "none of them" },
+        correct: "C",
+        exp: "في المصنف المثالي، تكون جميع القيم غير الصفرية (Nonzero) متمركزة حصراً على القطر الرئيسي (Main diagonal) الذي يمثل التنبؤات الصحيحة."
+    },
+    {
+        ch: 3, num: 40,
+        q: "ROC is stands for.........",
+        options: { A: "Rate of Change", B: "Receiver Operating Characteristic", C: "Receiver on Curve", D: "Return on Capital" },
+        correct: "B",
+        exp: "اختصار ROC يشير إلى منحنى خصائص تشغيل المستقبل (Receiver Operating Characteristic)."
+    },
+    {
+        ch: 3, num: 41,
+        q: ".......... is sensitive to changes in data distributions.",
+        options: { A: "Youden's Index", B: "Matthews Correlation Coefficient", C: "F-measure", D: "Jaccard" },
+        correct: "D",
+        exp: "مقياس Jaccard حساس لتغيرات توزيع البيانات (Data distributions)، لأنه يقارن التداخل بين القيم الفعلية والمتوقعة، ويتأثر بشدة باختلال توازن الفئات (Class imbalance)."
+    },
+    {
+        ch: 3, num: 42,
+        q: "............ represents the number of misclassified samples from both positive and negative classes.",
+        options: { A: "Accuracy (ACC)", B: "Error Rate (ERR)", C: "Sensitivity", D: "Specificity" },
+        correct: "B",
+        exp: "معدل الخطأ (Error Rate - ERR) يمثل نسبة أو عدد العينات المصنفة بشكل خاطئ من كلا الفئتين."
+    },
+    {
+        ch: 3, num: 43,
+        q: "Some algorithms, such as................., scale poorly with the size of the training set.",
+        options: { A: "Random Forest", B: "SGD classifiers", C: "naive Bayes classifiers", D: "Support Vector Machine classifiers" },
+        correct: "D",
+        exp: "خوارزميات SVM (Support Vector Machines) يتدهور أداؤها الحسابي بشكل حاد مع زيادة حجم مجموعة البيانات الكبيرة ($O(m^2)$ إلى $O(m^3)$)."
+    },
+    {
+        ch: 3, num: 44,
+        q: "SGDClassifier computes a score based on a......... function.",
+        options: { A: "precision", B: "decision", C: "F1-score", D: "none of them" },
+        correct: "B",
+        exp: "يحسب مصنف SGD درجة الثقة لكل عينة بناءً على دالة القرار (Decision Function)."
+    },
+    {
+        ch: 3, num: 45,
+        q: "Precision is the............ of the classifier.",
+        options: { A: "accuracy of the positive predictions", B: "ratio of positive instances that are correctly detected", C: "both of them", D: "none of them" },
+        correct: "A",
+        exp: "الدقة (Precision) هي دقة التنبؤات الإيجابية (Accuracy of the positive predictions = $TP / (TP + FP)$)."
+    },
+    {
+        ch: 3, num: 46,
+        q: "The ROC Curve is common tool used with........... classifiers",
+        options: { A: "Binary", B: "multi", C: "both of them", D: "none of them" },
+        correct: "A",
+        exp: "يُستخدم منحنى ROC كأداة قياسية شائعة لتقييم المصنفات الثنائية (Binary classifiers)."
+    },
+    {
+        ch: 3, num: 47,
+        q: ".............performs K-fold cross-validation and return the evaluation scores",
+        options: { A: "cross_val_score()", B: "cross_val_predict()", C: "cross_test_predict()", D: "none of them" },
+        correct: "A",
+        exp: "الدالة المسؤولة عن إجراء K-fold cross-validation وإرجاع درجات التقييم (Evaluation scores) هي <code>cross_val_score()</code>."
+    },
+    {
+        ch: 3, num: 48,
+        q: "harmonic mean..............",
+        options: { A: "gives much more weight to low values.", B: "gives much more weight to high values.", C: "treats all values equally", D: "none of them" },
+        correct: "A",
+        exp: "المتوسط التوافقي (Harmonic Mean) يعطي وزناً أكبر بكثير للقيم المنخفضة مقارنة بالمتوسط الحسابي العادي."
+    },
+    {
+        ch: 3, num: 49,
+        q: "............ represents the harmonic mean of precision and recall.",
+        options: { A: "Youden's Index", B: "Matthews Correlation Coefficient", C: "F-measure", D: "Jaccard" },
+        correct: "C",
+        exp: "مقياس F-measure (أو F1-score) يمثل المتوسط التوافقي بين الدقة (Precision) والاسترجاع (Recall)."
+    },
+    {
+        ch: 3, num: 50,
+        q: "............ represents the positive correctly classified samples to the total number of positive samples.",
+        options: { A: "True Positive Rate", B: "Hit Rate", C: "Recall", D: "all of them" },
+        correct: "D",
+        exp: "نسبة العينات الإيجابية المصنفة بشكل صحيح إلى إجمالي العينات الإيجابية تُعرف بـ TPR، و Recall، و Hit Rate (أو Sensitivity)."
+    },
+    {
+        ch: 3, num: 51,
+        q: "Which of the following is TRUE of the StratifiedKFold class",
+        options: { A: "it can be used to improve the performance of machine learning models on imbalanced datasets", B: "produce folds that contain a representative ratio of each class in the dataset", C: "it is cross-validation method that specifically design for Classification problem", D: "all of them" },
+        correct: "B",
+        exp: "الخاصية الأساسية لـ StratifiedKFold هي إنتاج طيات (Folds) تحتوي على نسبة ممثلة (Representative ratio) من كل فئة (Class) في مجموعة البيانات، وبالتالي تحافظ على توزيع الفئات في كل Fold أثناء Cross-validation."
+    },
+    {
+        ch: 3, num: 52,
+        q: "K-fold cross-validation is a method evaluating the performance of a machine learning model.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، K-fold cross-validation طريقة أساسية لتقييم أداء النماذج."
+    },
+    {
+        ch: 3, num: 53,
+        q: "What is the ROC AUC of a perfect classifier",
+        options: { A: "0", B: "0.5", C: "1", D: "none of them" },
+        correct: "C",
+        exp: "المصنف المثالي يحقق مساحة تحت المنحنى (ROC AUC) تساوي 1.0 تماماً، في حين أن المصنف العشوائي يحقق 0.5."
+    },
+    {
+        ch: 3, num: 54,
+        q: "In MNIST Dataset, The test set is already shuffled.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "العبارة خاطئة (False)، لأن مجموعة الاختبار (Test set) في MNIST ليست مخلوطة مسبقاً بالكامل (Not shuffled)، ويجب خلطها بشكل عشوائي قبل التدريب والتقييم لضمان تعميم جيد."
+    },
+    {
+        ch: 3, num: 55,
+        q: "Increasing precision reduces recall, and vice versa. This is called the precision/recall trade-of.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذه العلاقة العكسية بين الدقة والاسترجاع تُعرف بمفاضلة الدقة والاسترجاع (Precision/Recall Trade-off)."
+    },
+    {
+        ch: 3, num: 56,
+        q: "Which of the following algorithms is NOT capable of handling multiple classes natively",
+        options: { A: "SGD classifiers", B: "Random Forest", C: "naive Bayes classifiers", D: "Logistic Regression" },
+        correct: "D",
+        exp: "مصنف الانحدار اللوجستي (Logistic Regression) ثنائي بطبيعته ويحتاج استراتيجيات مثل OvR أو Softmax للتعامل مع فئات متعددة، بينما Random Forest و Naive Bayes تصنف فئات متعددة بشكل مباشر."
+    },
+    {
+        ch: 3, num: 57,
+        q: "(1 - ACC) represents the number of misclassified samples from both positive and negative classes.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مكمل الدقة (1 - Accuracy) يمثل معدل الخطأ الكلي (Error Rate)."
+    },
+    {
+        ch: 3, num: 58,
+        q: "There are various strategies that you can use to perform multiclass classification with multiple binary classifiers.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، مثل استراتيجية واحد ضد البقية (OvR - One-versus-Rest) واستراتيجية واحد ضد واحد (OvO - One-versus-One)."
+    },
+    {
+        ch: 3, num: 59,
+        q: "MNIST Dataset It is actually already split into a training set (the first........ images) and a test set (the last......... images).",
+        options: { A: "6000, 1000", B: "60000, 10000", C: "600000, 10000", D: "60000, 100000" },
+        correct: "B",
+        exp: "مجموعة MNIST مقسمة رسمياً إلى أول 60,000 صورة للتدريب وآخر 10,000 صورة للاختبار."
+    },
+    {
+        ch: 3, num: 60,
+        q: "What is the purpose of using a decision_function() in machine learning",
+        options: { A: "To make predictions about the class of each instance", B: "To calculate the probability of each class for each instance", C: "To tune the hyperparameters of a machine learning model", D: "To evaluate the performance of a machine learning model" },
+        correct: "A",
+        exp: "تُرجع دالة <code>decision_function()</code> درجة رقمية لكل عينة لتحديد الفئة المتوقعة بمقارنتها بالعتبة."
+    },
+    {
+        ch: 3, num: 61,
+        q: "In The One-versus-one (OvO) Strategy, you need........... classifiers for MNIST dataset.",
+        options: { A: "45", B: "N × (N - 1) / 2", C: "both of them", D: "none of them" },
+        correct: "C",
+        exp: "لكل $N=10$ فئات، نحتاج إلى $10 \\times (10 - 1) / 2 = 45$ مصنفاً ثنائياً، لذا كلاهما (A و B) صحيح."
+    },
+    {
+        ch: 3, num: 62,
+        q: "..........represents the proportion of positive samples that were correctly classified to the total number of positive predicted samples.",
+        options: { A: "Positive Prediction Value", B: "Precision", C: "both of them", D: "none of them" },
+        correct: "C",
+        exp: "نسبة العينات الإيجابية المصنفة صحيحة إلى مجموع التنبؤات الإيجابية تُعرف هندسياً وإحصائياً بـ Precision وأيضاً بـ Positive Prediction Value (PPV)."
+    },
+    {
+        ch: 3, num: 63,
+        q: "MNIST Dataset is actually already split into a........ (the first 60,000 images) and a....... (the last 10,000 images).",
+        options: { A: "test set, training set", B: "training set, test set", C: "vaildation set, test set", D: "none of them" },
+        correct: "B",
+        exp: "أول 60 ألف صورة تمثل مجموعة التدريب (Training set) والـ 10 آلاف المتبقية تمثل مجموعة الاختبار (Test set)."
+    },
+    {
+        ch: 3, num: 64,
+        q: "The......... is the harmonic mean of precision and recall.",
+        options: { A: "F1 score", B: "Jaccard", C: "F-measure", D: "none of them" },
+        correct: "A",
+        exp: "مقياس **F1 score** (أو F-measure) هو المتوسط التوافقي لـ Precision و Recall."
+    },
+    // ================= CHAPTER 4: TRAINING MODELS (PART I) =================
+    {
+        ch: 4, num: 1,
+        q: "In Gradient Descent, once the gradient is.......... you have reached a minimum.",
+        options: { A: "zero", B: "one", C: "three", D: "None of them" },
+        correct: "A",
+        exp: "عندما ينعدم التدرج (Gradient = 0)، يكون ميل مماس دالة التكلفة أفقياً، مما يعني الوصول إلى نقطة النهاية الصغرى (Minimum)."
+    },
+    {
+        ch: 4, num: 2,
+        q: "............ computes the gradients on small random sets of instances called mini-batches.",
+        options: { A: "Batch Gradient Descent", B: "SGD", C: "Mini-batch GD", D: "None of them" },
+        correct: "C",
+        exp: "خوارزمية **Mini-batch GD** تحسب التدرجات على دفعات عشوائية صغيرة تسمى mini-batches لتجمع بين سرعة المعالجة على كروت الشاشة GPU واستقرار التقارب."
+    },
+    {
+        ch: 4, num: 3,
+        q: "To train linear regression model, use closed-form that directly computes the model parameters",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، استخدام المعادلة القياسية (Normal Equation) يمثل حلاً مغلقاً ومباشراً (Closed-form solution) لحساب قيم المعلمات الأمثل رياضياً دون تكرار."
+    },
+    {
+        ch: 4, num: 4,
+        q: "In practice, it is simpler to minimize the......... than the.........., and it leads to the same result.",
+        options: { A: "RMSE, MEA", B: "RMSE, MSE", C: "MSE, RMSE", D: "None of them" },
+        correct: "C",
+        exp: "عملياً، تصغير الـ **MSE** أسهل رياضياً وبرمجياً في الاشتقاق من جذر الـ RMSE، ويؤدي إلى نفس قيم المعلمات تماماً."
+    },
+    {
+        ch: 4, num: 5,
+        q: "SGD makes it possible to train on huge training sets, since......... needs to be in memory at each iteration.",
+        options: { A: "zero instance", B: "one instance", C: "three instance", D: "None of them" },
+        correct: "B",
+        exp: "خوارزمية SGD تكتفي بتحميل عينة واحدة فقط (One instance) في الذاكرة عند كل تكرار، مما يسمح بتدريبها على مجموعات بيانات عملاقة."
+    },
+    {
+        ch: 4, num: 6,
+        q: "GD is guaranteed to approach arbitrarily close the global minimum",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، لأن دالة التكلفة (MSE) للانحدار الخطي هي دالة محدبة (Convex function) على شكل وعاء لا تحتوي على نهايات صغرى محلية تعيق التقارب."
+    },
+    {
+        ch: 4, num: 7,
+        q: "y^ = hθ(x) = θ.x in Linear Regression Model Prediction (Vectorized Form), hθ is refer to the............",
+        options: { A: "model's parameter vector.", B: "instance's feature vector.", C: "hypothesis function.", D: "None of them" },
+        correct: "C",
+        exp: "الرمز $h_\\theta$ يعبر عن دالة الفرضية (Hypothesis function) التي تمثل تنبؤ النموذج."
+    },
+    {
+        ch: 4, num: 8,
+        q: "Linear Regression is a polynomial model that makes a prediction by simply computing a weighted sum of the input features",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الانحدار الخطي نموذج خطي (Linear model) وليس متعدد الحدود (Polynomial model)."
+    },
+    {
+        ch: 4, num: 9,
+        q: "It means setting its parameters so that the model best fits the training set.",
+        options: { A: "Testing Model", B: "Training Model", C: "evaluation Model", D: "None of them" },
+        correct: "B",
+        exp: "تدريب النموذج (Training a Model) هو عملية ضبط المعلمات (Parameters) لجعل النموذج يتطابق بأفضل شكل ممكن مع بيانات التدريب."
+    },
+    {
+        ch: 4, num: 10,
+        q: "Batch Gradient Descent uses the whole batch of training data at every step.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تقوم Batch Gradient Descent بحساب التدرجات بناءً على كامل مجموعة التدريب في كل خطوة."
+    },
+    {
+        ch: 4, num: 11,
+        q: "y^ = hθ(x) = θ.x in Linear Regression Model Prediction (Vectorized Form), X is refer to the............",
+        options: { A: "model's parameter vector.", B: "instance's feature vector.", C: "hypothesis function.", D: "None of them" },
+        correct: "B",
+        exp: "يشير $x$ إلى متجه سمات وخصائص العينة (Instance's feature vector)."
+    },
+    {
+        ch: 4, num: 12,
+        q: "SGD picks a random instance in the training set at every step",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تختار SGD عينة عشوائية واحدة في كل تكرار لحساب التدرج وتحديث الأوزان."
+    },
+    {
+        ch: 4, num: 13,
+        q: "In practice, it is simpler to minimize the mean squared error (MSE) than the RMSE, and it leads to the same result.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، تصغير MSE يعطي نفس النتيجة لـ RMSE وهو أسهل في الحسابات التفاضلية."
+    },
+    {
+        ch: 4, num: 14,
+        q: "In Gradient Descent, once the gradient is zero, you have reached a minimum.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، انعدام التدرج في الدوال المحدبة يعني التواجد عند النهاية الصغرى."
+    },
+    {
+        ch: 4, num: 15,
+        q: "Convex function means that if you pick any two points on the curve, the line segment joining them never crosses the curve.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذا التعريف الدقيق للدالة المحدبة هندسياً."
+    },
+    {
+        ch: 4, num: 16,
+        q: "Randomness is good to escape from local optima, but bad because it means that the algorithm can never settle at the............",
+        options: { A: "minimum", B: "maximize", C: "same point", D: "None of them" },
+        correct: "A",
+        exp: "العشوائية تمنع الثبات الكامل عند النهاية الصغرى (Minimum) وتجعل النموذج يتذبذب حولها."
+    },
+    {
+        ch: 4, num: 17,
+        q: "Linear regression is a linear model that makes a prediction by simply computing a weighted sum of the ............ Features.",
+        options: { A: "input", B: "output", C: "both of them", D: "None of them" },
+        correct: "A",
+        exp: "يحسب الانحدار الخطي المجموع الموزون لسمات المدخلات (Input features)."
+    },
+    {
+        ch: 4, num: 18,
+        q: "y^ = θ0 + θ1x1 + θ2x2 + ... + θnxn in linear regression equation, n refer to the number of features.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الرمز $n$ يعبر عن عدد الخصائص (Number of features)."
+    },
+    {
+        ch: 4, num: 19,
+        q: "The pseudoinverse itself is computed using SVD",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يتم حساب المعكوس شبه الحقيقي للمصفوفات عبر تحليل القيمة المفردة (Singular Value Decomposition)."
+    },
+    {
+        ch: 4, num: 20,
+        q: "The general idea of Gradient Descent is to tweak parameters iteratively in order to minimize a cost function.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الانحدار التدريجي يقوم بتعديل المعلمات تكرارياً لتقليل قيمة دالة التكلفة."
+    },
+    {
+        ch: 4, num: 21,
+        q: "In SGD once the algorithm stops, the final parameter values are optimal",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، المعلمات النهائية تكون جيدة جداً (Good) لكنها ليست مثالية تماماً (Not optimal) بسبب التذبذب العشوائي."
+    },
+    {
+        ch: 4, num: 22,
+        q: "Batch Gradient Descent uses the whole batch of............. data at every step.",
+        options: { A: "testing", B: "training", C: "both of them", D: "None of them" },
+        correct: "B",
+        exp: "تعتمد على كامل بيانات التدريب (Training data)."
+    },
+    {
+        ch: 4, num: 23,
+        q: "The function that determines the learning rate at each iteration is called the............",
+        options: { A: "Simulated Annealing", B: "hypothesis function.", C: "learning schedule", D: "None of them" },
+        correct: "C",
+        exp: "جدول التعلم (Learning schedule) هو الدالة المسؤولة عن تقليل معدل التعلم تدريجياً مع تقدم التكرارات."
+    },
+    {
+        ch: 4, num: 24,
+        q: "SGD computes the gradients based only on that.......... instance.",
+        options: { A: "single", B: "multiple", C: "both of them", D: "None of them" },
+        correct: "A",
+        exp: "تحسب SGD التدرج بناءً على عينة واحدة فقط (Single instance)."
+    },
+    {
+        ch: 4, num: 25,
+        q: "Simulated Annealing inspired from the process in metallurgy of annealing, where molten metal is slowly cooled down.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، استعير المفهوم من عملية التلدين في المعادن وتبريدها تدريجياً لتقليل العيوب البلورية."
+    },
+    {
+        ch: 4, num: 26,
+        q: "When using GD, you should ensure that all features have a different scale.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، يجب التأكد من أن جميع الخصائص تمتلك مقاييس متشابهة ومتجانسة (Similar scale) لتسريع التقارب."
+    },
+    {
+        ch: 4, num: 27,
+        q: "SGD is much faster because it has very little data to manipulate at every iteration.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، لكونها تتعامل مع عينة واحدة فقط في كل خطوة."
+    },
+    {
+        ch: 4, num: 28,
+        q: "In practice, it is simpler to maximize the mean squared error (MSE) than the RMSE, and it leads to the same result",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الهدف هو تصغير (Minimize) دالة التكلفة وليس تكبيرها."
+    },
+    {
+        ch: 4, num: 29,
+        q: "y^ = θ0 + θ1x1 + θ2x2 + ... + θnxn in linear regression equation, n refere to the.............",
+        options: { A: "predicted value", B: "number of features", C: "actual value", D: "None of them" },
+        correct: "B",
+        exp: "يرمز $n$ إلى عدد الخصائص في مجموعة البيانات."
+    },
+    {
+        ch: 4, num: 30,
+        q: "Gradient Descent gradually tweaks the model parameters to.......... the cost function over the training set.",
+        options: { A: "minimize", B: "maximize", C: "equal", D: "None of them" },
+        correct: "A",
+        exp: "الهدف الأساسي هو تصغير (Minimize) دالة التكلفة."
+    },
+    {
+        ch: 4, num: 31,
+        q: "....... is a generic optimization algorithm capable of finding optimal solutions to a wide range of problems.",
+        options: { A: "SVM", B: "KNN", C: "Linear Regression", D: "Gradient Descent" },
+        correct: "D",
+        exp: "خوارزمية **Gradient Descent** هي طريقة تحسين عامة لحل مختلف المسائل الرياضية ونماذج التعلم الآلي."
+    },
+    {
+        ch: 4, num: 32,
+        q: "An important parameter in Gradient Descent is the size of the steps, determined by the learning rate hyperparameter.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، حجم الخطوة في فضاء المعلمات يتحدد مباشرة عبر قيمة الـ Learning Rate."
+    },
+    {
+        ch: 4, num: 33,
+        q: "In SGD once the algorithm stops, the final parameter values are good, but not optimal",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، المعلمات النهائية لـ SGD تكون قريبة وممتازة لكنها ليست الحل الرياضي الأكمل بنسبة 100%."
+    },
+    {
+        ch: 4, num: 34,
+        q: "The SVD approach used by Scikit-Learn's Linear Regression class is about...........",
+        options: { A: "O(n2)", B: "O(n^2)", C: "O(n)", D: "O(n^3)" },
+        correct: "B",
+        exp: "التعقيد الحسابي لتحليل SVD في Scikit-Learn هو حوالي $O(n^2)$ بالنسبة لعدد الخصائص."
+    },
+    {
+        ch: 4, num: 35,
+        q: "To train a Linear Regression model, we need to find the value of θ that........... the Root Mean Square Error.",
+        options: { A: "minimizes", B: "maximize", C: "doesn't change", D: "None of them" },
+        correct: "A",
+        exp: "تدريب النموذج يعني إيجاد قيم المعلمات التي تصغر (Minimizes) الخطأ."
+    },
+    {
+        ch: 4, num: 36,
+        q: "y^ = hθ(x) = θ.x in Linear Regression Model Prediction (Vectorized Form), θ is refer to the",
+        options: { A: "model's parameter vector", B: "instance's feature vector", C: "hypothesis function", D: "None of them" },
+        correct: "A",
+        exp: "الرمز $\\theta$ يمثل متجه معلمات وأوزان النموذج (Model's parameter vector)."
+    },
+    {
+        ch: 4, num: 37,
+        q: "To train a Linear Regression model, we need to find the value of θ that minimizes the Root Mean Square Error",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، هذا هو الهدف الأساسي من تدريب النموذج الخطي."
+    },
+    {
+        ch: 4, num: 38,
+        q: "The SVD approach used by Scikit-Learn's Linear Regression class is about O(n^2)",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، التعقيد الحسابي لنهج SVD مع عدد الميزات $n$ يقارب $O(n^2)$."
+    },
+    {
+        ch: 4, num: 39,
+        q: "....... picks a random instance in the training set at every step and computes the gradients based only on that single instance.",
+        options: { A: "Batch Gradient Descent", B: "SGD", C: "Mini-batch GD", D: "None of them" },
+        correct: "B",
+        exp: "هذا هو السلوك المحدد لخوارزمية **SGD**."
+    },
+    {
+        ch: 4, num: 40,
+        q: "GD is guaranteed to approach arbitrarily close the global maximum",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الهدف هو الاقتراب من النهاية الصغرى العامة (Global minimum) وليس العظمى."
+    },
+    {
+        ch: 4, num: 41,
+        q: "When using GD, you should ensure that all features have a similar scale.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، توحيد المقاييس (Feature Scaling) ضروري لتسريع تقارب الانحدار التدريجي."
+    },
+    {
+        ch: 4, num: 42,
+        q: "Gradient Descent is a generic optimization algorithm capable of finding optimal solutions to a wide range of problems.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، خوارزمية عامة وفعالة في العديد من المجالات."
+    },
+    {
+        ch: 4, num: 43,
+        q: "The............ cost function for a Linear Regression model happens to be a convex function.",
+        options: { A: "MAE", B: "MSE", C: "RMSE", D: "None of them" },
+        correct: "B",
+        exp: "دالة الـ **MSE** للانحدار الخطي هي دالة محدبة (Convex) هندسياً."
+    },
+    {
+        ch: 4, num: 44,
+        q: "y^ = θ0 + θ1x1 + θ2x2 + ... + θnxn in linear regression equation, n refere to the predicted value.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، القيمة المتوقعة هي $\\hat{y}$، بينما $n$ هو عدد الخصائص."
+    },
+    {
+        ch: 4, num: 45,
+        q: "To train a Linear Regression model, we need to find the value of θ that maximize the Root Mean Square Error.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، تدريب النموذج يسعى لتصغير (Minimize) الخطأ."
+    },
+    {
+        ch: 4, num: 46,
+        q: "When using SGD, the training instances must be independent and identically distributed.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يشترط أن تكون العينات مستقلة ومتطابقة التوزيع (IID) عن طريق خلط البيانات (Shuffling)."
+    },
+    {
+        ch: 4, num: 47,
+        q: "In Gradient Descent, once the gradient is zero, you have reached a maximum.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، عند انعدام التدرج نصل إلى نهاية صغرى (Minimum)."
+    },
+    {
+        ch: 4, num: 48,
+        q: "If the learning rate is too small, then the algorithm will have to go through many iterations to converge, which will take a long time.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، معدل التعلم الصغير جداً يبطئ خطوات التقارب بشكل مفرط."
+    },
+    {
+        ch: 4, num: 49,
+        q: "If the learning rate is too high, you might jump across the valley and end up on the other side, possibly even higher up than you were before failing to find a good solution.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، معدل التعلم المرتفع قد يؤدي إلى قفزات متباعدة والتشتت (Divergence)."
+    },
+    {
+        ch: 4, num: 50,
+        q: "The cost function has the shape of a bowl, but it can be an elongated bowl if the features have very different scales.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، اختلاف مقاييس الخصائص يجعل دالة التكلفة وعاءً مستطالاً ومشوهاً، مما يطيل مدة التقارب."
+    },
+    // ================= CHAPTER 5: TRAINING MODELS (PART II) =================
+    {
+        ch: 5, num: 1,
+        q: "What is purpose of regularization term in Ridge Regression?",
+        options: { A: "To ignore the impact of model weights during training", B: "To penalize large model weights by adding αΣθ^2 to the cost function.", C: "To increase the size of model weights", D: "All of them are false" },
+        correct: "B",
+        exp: "معامل التنظيم في **Ridge Regression** يفرض عقوبة تربيعية $\\alpha \\sum \\theta^2$ على الأوزان الكبيرة لتقليصها وتفادي الـ Overfitting."
+    },
+    {
+        ch: 5, num: 2,
+        q: "If you perform............, you will likely fit the training data much better than with plain LR.",
+        options: { A: "high-degree Polynomial Regression", B: "low-degree Polynomial Regression", C: "Polynomial Regression", D: "Linear Regression" },
+        correct: "A",
+        exp: "الانحدار متعدد الحدود بدرجات عالية (High-degree Polynomial) سيتطابق بشكل مفرط ومحكم جداً مع بيانات التدريب ولكنه يهدد بالـ Overfitting."
+    },
+    {
+        ch: 5, num: 3,
+        q: "What does it mean if a model is underfitting?",
+        options: { A: "It performs well on training data but generalizes poorly according to cross-validation metrics", B: "It performs poorly on training data but generalizes well according to cross-validation metrics", C: "It performs poorly on both training data and cross-validation metrics", D: "It performs well on both training data and cross-validation metrics" },
+        correct: "C",
+        exp: "الـ **Underfitting** يعني أن أداء النموذج ضعيف وهزيل على كل من بيانات التدريب ومقاييس التحقق عبر cross-validation لكونه بسيطاً جداً."
+    },
+    {
+        ch: 5, num: 4,
+        q: "What does it mean if a model is overfitting?",
+        options: { A: "It performs well on training data but generalizes poorly according to cross-validation metrics", B: "It performs poorly on training data but generalizes well according to cross-validation metrics", C: "It performs poorly on both training data and cross-validation metrics", D: "It performs well on both training data and cross-validation metrics" },
+        correct: "A",
+        exp: "الـ **Overfitting** يعني أداء ممتاز ومثالي على بيانات التدريب مقابل ضعف وفشل كبير في التعميم على البيانات الجديدة."
+    },
+    {
+        ch: 5, num: 5,
+        q: "What is the term often used to refer the score t in Logistic Regression, representing the logit or log-odds?",
+        options: { A: "Logit", B: "Logarithmic score", C: "Odds ratio", D: "All of them are false" },
+        correct: "A",
+        exp: "تسمى القيمة $t$ في الانحدار اللوجستي بـ **Logit** أو log-odds لأنها تمثل لوغاريتم الاحتمالات قبل تطبيق دالة Sigmoid."
+    },
+    {
+        ch: 5, num: 6,
+        q: "How does the Softmax Regression model compute the probability of each class for a given instance x?",
+        options: { A: "By directly assigning equal probabilities to each class", B: "By applying the sigmoid function to the scores", C: "By applying the softmax function to the scores obtained for each class.", D: "All of them are false" },
+        correct: "C",
+        exp: "يقوم النموذج بتطبيق دالة **Softmax** على الدرجات المحسوبة لكل فئة لتحويلها إلى توزيع احتمالي مجموع عناصره 1."
+    },
+    {
+        ch: 5, num: 7,
+        q: "What does the hyperparameter α control in Ridge Regression?",
+        options: { A: "The regularization strength", B: "The learning rate of the model", C: "The number of features in the dataset", D: "All of them are false" },
+        correct: "A",
+        exp: "المعامل $\\alpha$ يتحكم في قوة التنظيم (Regularization strength)؛ زيادته تجبر الأوزان على الاقتراب من الصفر وتقيد مرونة النموذج."
+    },
+    {
+        ch: 5, num: 8,
+        q: "What causes Irreducible error in Model's generalization error?",
+        options: { A: "wrong assumptions", B: "excessive sensitivity to small variations in the training data", C: "noisiness of the data itself", D: "Overfitting the training data." },
+        correct: "C",
+        exp: "الخطأ غير القابل للاختزال (Irreducible error) ينتج عن التشويش والأخطاء العشوائية في البيانات ذاتها (Noisiness of the data itself)."
+    },
+    {
+        ch: 5, num: 9,
+        q: "What causes Variance in Model's generalization error?",
+        options: { A: "wrong assumptions", B: "excessive sensitivity to small variations in the training data", C: "noisiness of the data itself", D: "Underfitting the training data." },
+        correct: "B",
+        exp: "التباين (Variance) ينتج عن الحساسية المفرطة للنموذج تجاه التغيرات الطفيفة في بيانات التدريب وهو سبب الـ Overfitting."
+    },
+    {
+        ch: 5, num: 10,
+        q: "What causes Bias in Model's generalization error?",
+        options: { A: "wrong assumptions", B: "excessive sensitivity to small variations in the training data", C: "noisiness of the data itself", D: "Overfitting the training data." },
+        correct: "A",
+        exp: "الانحياز (Bias) ينتج عن الافتراضات الخاطئة (Wrong assumptions) مثل افتراض خطية العلاقة بينما البيانات غير خطية."
+    },
+    {
+        ch: 5, num: 11,
+        q: "What does Elastic Net is equivalent to Lasso Regression?",
+        options: { A: "When the mix ratio r is set to 0", B: "When the mix ratio r is set to 0.5", C: "When the mix ratio r is set to 1", D: "All of them are false" },
+        correct: "C",
+        exp: "عندما تكون نسبة المزج $r = 1$ في Elastic Net، تصبح مطابقة تماماً لانحدار **Lasso**."
+    },
+    {
+        ch: 5, num: 12,
+        q: "What does Elastic Net is equivalent to Ridge Regression?",
+        options: { A: "When the mix ratio r is set to 0", B: "When the mix ratio r is set to 0.5", C: "When the mix ratio r is set to 1", D: "All of them are false" },
+        correct: "A",
+        exp: "عندما تكون $r = 0$، تلغى حدود Lasso وتصبح Elastic Net مطابقة لـ **Ridge Regression**."
+    },
+    {
+        ch: 5, num: 13,
+        q: "Why is Cross entropy used in Softmax Regression to measure model performance?",
+        options: { A: "Because it effectively measures how well a set of estimated class probabilities matches the target classes", B: "Because it is robust to outliers in the target probabilities", C: "Because it is computationally simpler than other cost function", D: "All of them are false" },
+        correct: "A",
+        exp: "لأن دالة **Cross Entropy** تقيس بدقة مدى تطابق الاحتمالات المتوقعة لكل فئة مع الفئة المستهدفة الحقيقية وتفرض عقوبة قوية على التنبؤات الخاطئة."
+    },
+    {
+        ch: 5, num: 14,
+        q: "What does a high-bias model tend to do?",
+        options: { A: "Underfit the training data", B: "Have high variance", C: "Overfit the training data", D: "Have low irreducible error" },
+        correct: "A",
+        exp: "النموذج ذو الانحياز العالي (High-bias) يكون بسيطاً جداً ويميل دائماً إلى الـ **Underfitting**."
+    },
+    {
+        ch: 5, num: 15,
+        q: "What does a model with many degrees of freedom tend to do?",
+        options: { A: "Have high variance and overfit the training data", B: "Underfit the training data", C: "Have low variance", D: "All of them are false" },
+        correct: "A",
+        exp: "النموذج الذي يمتلك درجات حرية كثيرة ومعلمات معقدة يمتلك تبايناً عالياً ويميل إلى الـ **Overfitting**."
+    },
+    {
+        ch: 5, num: 16,
+        q: "What type of classifier is Logistic (Logit) Regression?",
+        options: { A: "It is a binary classifier", B: "It is a multi-class classifier", C: "It is a clustering algorithm", D: "All of them are false" },
+        correct: "A",
+        exp: "الانحدار اللوجستي هو مصنف ثنائي (Binary classifier) يصنف البيانات إلى فئتين (0 أو 1)."
+    },
+    {
+        ch: 5, num: 17,
+        q: "What does the addition of the regularization term in Ridge Regression encourage the model to do during training?",
+        options: { A: "Increase the flexibility of the model", B: "Neglect the impact of the regularization term", C: "keep the model weights as small as possible", D: "All of them are false" },
+        correct: "C",
+        exp: "يجبر معامل التنظيم النموذج على إبقاء قيم الأوزان صغيرة قدر الإمكان (Keep model weights as small as possible)."
+    },
+    {
+        ch: 5, num: 18,
+        q: "What does the Softmax function do to the scores in Softmax Regression?",
+        options: { A: "It multiplies each score by a constant value", B: "It subtracts a constant value from each score", C: "It computes the exponential of every score and then normalizes them by dividing by the sum of all the exponentials.", D: "All of them are false" },
+        correct: "C",
+        exp: "تحسب الدالة الأس الطبيعي (Exponential) لكل درجة وتقسمه على مجموع الأسس لإنتاج احتمالات طبيعية مجموعها 1."
+    },
+    {
+        ch: 5, num: 19,
+        q: "How does the Softmax Regression classifier make predictions?",
+        options: { A: "It predicts only one class at a time, selecting the class with the highest estimated probability", B: "It predicts the class with the lowest estimated probability", C: "It predicts multiple classes simultaneously", D: "All of them are false" },
+        correct: "A",
+        exp: "يختار المصنف فئة واحدة فقط عند كل تنبؤ، وهي الفئة الحاصلة على أعلى احتمال تقديري."
+    },
+    {
+        ch: 5, num: 20,
+        q: "What is the characteristic of the Logistic Regression cost function that facilitates optimization using algorithms like Gradient Descent?",
+        options: { A: "The cost function is convex", B: "The cost function is not convex", C: "The cost function has multiple local minima", D: "All of them are false" },
+        correct: "A",
+        exp: "دالة تكلفة الانحدار اللوجستي محدبة (Convex)، مما يعني عدم وجود نهايات صغرى محلية ويضمن وصول Gradient Descent للنهاية الصغرى العامة."
+    },
+    {
+        ch: 5, num: 21,
+        q: "What is the primary purpose of Logistic Regression?",
+        options: { A: "To predict numerical values for a given instance", B: "To estimate the probability that an instance belongs to a particular class", C: "To perform clustering on the input data", D: "All of them are false" },
+        correct: "B",
+        exp: "الغرض الأساسي هو تقدير احتمالية انتماء العينة إلى فئة معينة."
+    },
+    {
+        ch: 5, num: 22,
+        q: "What is a potential disadvantage of Lasso in comparison to Elastic Net?",
+        options: { A: "Lasso tends to increase the weights of all features", B: "Lasso has slower convergence than Elastic Net", C: "Lasso may behave erratically when the number of features is greater than the number of training instances or when several features are strongly correlated.", D: "All of them are false" },
+        correct: "C",
+        exp: "من عيوب Lasso أنها تتصرف بشكل عشوائي وغير مستقر إذا كان عدد الميزات أكبر من عدد العينات، أو عند وجود ارتباط قوي بين الميزات."
+    },
+    {
+        ch: 5, num: 23,
+        q: "Model's generalization error can be expressed as the........ of three very different errors.",
+        options: { A: "sum", B: "squared", C: "Multiply", D: "All of them are false" },
+        correct: "A",
+        exp: "يمكن التعبير عن خطأ التعميم كمجموع (Sum) لثلاثة أخطاء: Bias^2 + Variance + Irreducible error."
+    },
+    {
+        ch: 5, num: 24,
+        q: "How is the regularization term in Elastic Net constructed, and what parameter controls the mix ratio between Ridge and Lasso regularization terms?",
+        options: { A: "The regularization term is the sum of Ridge and Lasso's regularization terms, and it is controlled by the parameter α", B: "The regularization term is independent of Ridge and Lasso's regularization terms, and it is controlled by the parameter β", C: "The regularization term is a simple mix of both Ridge and Lasso's regularization terms, and it is controlled by the parameter r.", D: "All of them are false" },
+        correct: "C",
+        exp: "هو مزيج من تنظيمي Ridge و Lasso ويتحكم في نسبة الخلط بينهما المعامل $r$."
+    },
+    {
+        ch: 5, num: 25,
+        q: "How does the Logistic Regression model compute the estimated probability of an instance belonging to a particular class?",
+        options: { A: "It computes the average of the input features", B: "It computes a weighted sum of the input features, applies the logistic function, and outputs the result", C: "It directly output sum of the input features", D: "All of them are false" },
+        correct: "B",
+        exp: "يحسب المجموع الموزون للمدخلات ثم يمرره عبر دالة الـ Sigmoid اللوجستية لإخراج احتمال بين 0 و 1."
+    },
+    {
+        ch: 5, num: 26,
+        q: "True/False If you perform high-degree Polynomial Regression, you will likely fit the training data lessbetter than with plain LR.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، الـ high-degree Polynomial Regression سيتطابق مع بيانات التدريب بشكل أفضل بكثير (Much better) وليس أقل مقارنة بالانحدار الخطي العادي."
+    },
+    {
+        ch: 5, num: 27,
+        q: "How can you estimate a model's generalization performance?",
+        options: { A: "Use learning curves to plot the model's performance over time", B: "Use cross-validation to get an estimate of a model's generalization performance", C: "Use feature engineering to improve the model's generalization performance", D: "Use hyperparameter tuning to improve the model's generalization performance" },
+        correct: "B",
+        exp: "نستخدم **Cross-validation** لتقييم وتقدير قدرة النموذج على التعميم على بيانات جديدة."
+    },
+    {
+        ch: 5, num: 28,
+        q: "True/False Increasing a model's complexity will typically increase its variance and reduce its bias",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، زيادة تعقيد النموذج تزيد من تباينه (Variance) وتقلل من انحيازه (Bias)، وهو ما يعرف بـ Bias-Variance Tradeoff."
+    },
+    {
+        ch: 5, num: 29,
+        q: "A simple way to do this is to add powers of each feature as new features, then train a linear model on this extended set of features.",
+        options: { A: "Linear Regression", B: "Polynomial Regression", C: "Logistic Regression", D: "All of them are false" },
+        correct: "B",
+        exp: "إضافة قوى وأسس الميزات الحالية كميزات جديدة ثم تدريب نموذج خطي هو أسلوب **Polynomial Regression**."
+    },
+    {
+        ch: 5, num: 30,
+        q: "What type of cost function used Softmax Regression to measure the model's performance?",
+        options: { A: "Mean Squared Error", B: "Absolute Error", C: "Cross Entropy", D: "All of them are false" },
+        correct: "C",
+        exp: "تستخدم **Cross Entropy** (الانتروبيا المتقاطعة) كدالة تكلفة قياسية في Softmax Regression."
+    },
+    {
+        ch: 5, num: 31,
+        q: "In Lasso Regularization, under what condition does Gradient Descent still work fine the use of a subgradient vector?",
+        options: { A: "Gradient Descent works fine when any θi value is zero", B: "Gradient Descent works fine only when all θi value are zero", C: "Gradient Descent works fine only when all θi value are non-zero", D: "All of them are false" },
+        correct: "A",
+        exp: "باستخدام متجه التدرج الجزئي (Subgradient vector)، يعمل الانحدار التدريجي بسلاسة حتى عندما تنعدم قيمة أي معامِل $\\theta_i = 0$."
+    },
+    {
+        ch: 5, num: 32,
+        q: "The solution of overfitting is............. until the validation error reaches the training error.",
+        options: { A: "less testing data", B: "more testing data", C: "less training data", D: "more training data" },
+        correct: "D",
+        exp: "إضافة وتزويد النموذج بالمزيد من بيانات التدريب (More training data) يقلل الفجوة بين خطأ التحقق وخطأ التدريب ويعالج الـ Overfitting."
+    },
+    {
+        ch: 5, num: 33,
+        q: "Why might one prefer Lasso or Elastic Net over Ridge Regularization?",
+        options: { A: "because they tend to reduce the weights of all features.", B: "because they tend to reduce the weights of useless features down to zero.", C: "because they tend to increase the weights of useful features", D: "All of them are false" },
+        correct: "B",
+        exp: "لأن Lasso تقوم بعمل Feature Selection تلقائي عن طريق تصفير أوزان الميزات غير المفيدة تماماً وتحويلها إلى أصفار."
+    },
+    {
+        ch: 5, num: 34,
+        q: "Which of the following is a potential indicator of overfitting in a model?",
+        options: { A: "High performance on training data and Low generalization performance", B: "Low performance on training data and High generalization performance", C: "High performance on both training data and cross-validation metrics", D: "Low performance on both training data and cross-validation metrics" },
+        correct: "A",
+        exp: "الأداء العالي على بيانات التدريب المصحوب بأداء ضعيف على بيانات الاختبار هو المؤشر الكلاسيكي للـ Overfitting."
+    },
+    {
+        ch: 5, num: 35,
+        q: "How can irreducible error be reduced in a model?",
+        options: { A: "By cleaning up the data", B: "By reducing bias and variance", C: "By making more assumptions about the data", D: "By increasing sensitivity to small variations in the training data" },
+        correct: "A",
+        exp: "لا يمكن تقليل هذا الخطأ بالخوارزميات نفسها، وإنما فقط عبر تنظيف البيانات (Cleaning up data) وتصحيح مصادر القياس والضجيج."
+    },
+    {
+        ch: 5, num: 36,
+        q: "Why is finding the optimal value of θ in Logistic Regression challenging?",
+        options: { A: "Because the cost function has too many local minima", B: "Because no known closed-form equation to compute the value of θ that minimizes this cost function", C: "Because the Normal Equation is not applicable to Logistic Regression", D: "All of them are false" },
+        correct: "B",
+        exp: "لأنه لا توجد معادلة رياضية مغلقة ومباشرة (No closed-form equation) لحساب $\\theta$، ويتحتم استخدام طرق تكرارية مثل Gradient Descent."
+    },
+    {
+        ch: 5, num: 37,
+        q: "Learning Curves are plots of the model's performance on.....",
+        options: { A: "training set", B: "validation set", C: "training set and validation set", D: "All of them are false" },
+        correct: "C",
+        exp: "منحنيات التعلم (Learning Curves) ترسم أداء النموذج بالتوازي على كل من مجموعة التدريب ومجموعة التحقق مع زيادة حجم البيانات."
+    },
+    {
+        ch: 5, num: 38,
+        q: "What are the scores often referred to in Softmax Regression?",
+        options: { A: "Logits or Log-odds", B: "Predictions", C: "Residuals", D: "All of them are false" },
+        correct: "A",
+        exp: "الدرجات الناتجة لكل فئة تسمى بـ **Logits** أو Log-odds قبل تحويلها لاحتمالات."
+    },
+    {
+        ch: 5, num: 39,
+        q: "True/False When there are multiple features, Polynomial Regression is capable of finding relationships between features.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، لأنها تضيف حاصل ضرب الخصائص في بعضها (Interaction terms) مثل $x_1 x_2$."
+    },
+    {
+        ch: 5, num: 40,
+        q: "The high-degree Polynomial Regression model is severely...... the training data, while the linear model is...... it.",
+        options: { A: "overfitting, underfitting", B: "underfitting, overfitting", C: "overfitting, overfitting", D: "underfitting, underfitting" },
+        correct: "A",
+        exp: "النموذج متعدد الحدود العالي يعاني من Overfitting شديد، بينما النموذج الخطي البسيط يعاني من Underfitting."
+    },
+    {
+        ch: 5, num: 41,
+        q: "When α is set to 0 in Ridge Regression, what does the model resemble?",
+        options: { A: "A Linear Regression model", B: "A Polynomial Regression model", C: "A Logistic Regression model", D: "All of them are false" },
+        correct: "A",
+        exp: "عندما تكون $\\alpha = 0$ يختفي حد التنظيم تماماً ويتحول النموذج إلى انحدار خطي عادي (Linear Regression)."
+    },
+    {
+        ch: 5, num: 42,
+        q: "What is Elastic Net in relation to Ridge and Lasso Regression?",
+        options: { A: "Elastic Net is equivalent to Ridge Regression", B: "Elastic Net is equivalent to Lasso Regression", C: "Elastic Net is a middle ground between Ridge Regression and Lasso Regression", D: "All of them are false" },
+        correct: "C",
+        exp: "تعد **Elastic Net** حلاً وسطاً يجمع بين عقوبتي Ridge و Lasso معاً بنسب قابلة للتحكم."
+    },
+    {
+        ch: 5, num: 43,
+        q: "What techniques are commonly used for regularization in linear models?",
+        options: { A: "Ridge Regression, Lasso Regression, and Elastic Net", B: "Increasing the learning rate", C: "Adding more features to the model", D: "All of them are false" },
+        correct: "A",
+        exp: "الطرق القياسية للتنظيم في النماذج الخطية هي: Ridge و Lasso و Elastic Net."
+    },
+    {
+        ch: 5, num: 44,
+        q: "What is recommended approach to prevent Gradient Descent from bouncing around the optimum when using Lasso Regression?",
+        options: { A: "Keep the learning rate constant throughout the training", B: "Gradually increase the learning rate during training", C: "Gradually reduce the learning rate during training", D: "All of them are false" },
+        correct: "C",
+        exp: "يوصى بتقليل معدل التعلم تدريجياً (Gradually reduce the learning rate) لمنع التذبذب حول النقطة المثلى."
+    },
+    {
+        ch: 5, num: 45,
+        q: "What is primary purpose of Softmax Regression?",
+        options: { A: "Softmax Regression is designed for binary classification problems", B: "Softmax Regression is the generalization of the Logistic Regression model to support multiple classes directly", C: "Softmax Regression is used for regression tasks", D: "All of them are false" },
+        correct: "B",
+        exp: "انحدار Softmax هو تعميم مباشر للانحدار اللوجستي ليدعم التصنيف متعدد الفئات (Multiclass) بشكل مباشر."
+    },
+    {
+        ch: 5, num: 46,
+        q: "How can overfitting be addressed in a polynomial model?",
+        options: { A: "Increasing the number of polynomial degrees.", B: "Reducing the number of polynomial degrees.", C: "Introducing dropout layers", D: "All of them are false" },
+        correct: "B",
+        exp: "تقليل درجة متعددة الحدود (Reducing the polynomial degrees) يقلل من درجات الحرية ويعالج الـ Overfitting."
+    },
+    {
+        ch: 5, num: 47,
+        q: "In Softmax Regression, what does the Softmax score represent for each class k?",
+        options: { A: "The average value of feature for class k", B: "The probability of belonging to class k", C: "The raw output of linear regression model", D: "All of them are false" },
+        correct: "B",
+        exp: "تمثل القيمة المحسوبة احتمال انتماء العينة إلى الفئة $k$."
+    },
+    {
+        ch: 5, num: 48,
+        q: "What is the primary objective of training in Logistic Regression?",
+        options: { A: "to set the parameter vector θ so that the model estimates low probabilities for positive instances (y=1)", B: "to set the parameter vector θ so that the model estimates low probabilities for negative instances (y=0).", C: "to set the parameter vector θ so that the model estimates high probabilities for positive instances (y=1) and low probabilities for negative instances (y=0).", D: "All of them are false" },
+        correct: "C",
+        exp: "الهدف هو ضبط الأوزان لتقدير احتمالات عالية للعينات الإيجابية (y=1) واحتمالات منخفضة للعينات السالبة (y=0)."
+    },
+    {
+        ch: 5, num: 49,
+        q: "What happens when the hyperparameter α in Ridge Regression is set to very large value?",
+        options: { A: "The model becomes more sensitive to outliers", B: "The model becomes more flexible", C: "All weights approach zero, resulting in flat line going through the data's mean.", D: "All of them are false" },
+        correct: "C",
+        exp: "القيم الكبيرة جداً لـ $\\alpha$ تجبر جميع الأوزان على الاقتراب من الصفر، مما يجعل النموذج خطاً أفقياً يمر بمتوسط البيانات فقط."
+    },
+    {
+        ch: 5, num: 50,
+        q: "............ It is due to wrong assumptions. A high-bias model is most likely to underfit the training data.",
+        options: { A: "Bias", B: "Variance", C: "Irreducible error", D: "All of them are false" },
+        correct: "A",
+        exp: "الانحياز (**Bias**) ينتج عن الافتراضات غير الصحيحة للنموذج وهو المسبب الرئيسي للـ Underfitting."
+    },
+    {
+        ch: 5, num: 51,
+        q: "What is the characteristic Lasso Regression regarding the weight of the least important features?",
+        options: { A: "Lasso Regression has no impact on the weight of the least important features", B: "Lasso Regression increases the weight of the least important features", C: "Lasso Regression tends to set the weight of the least important features to zero", D: "All of them are false" },
+        correct: "C",
+        exp: "تميل Lasso Regression إلى تصفير أوزان الميزات الأقل أهمية تماماً وجعلها مساوية للصفر (Set weights to zero)."
+    },
+    // ================= CHAPTER 6: SUPPORT VECTOR MACHINES (SVM) =================
+    {
+        ch: 6, num: 1,
+        q: "In the context Moon dataset, what type of machine learning task is most suitable?",
+        options: { A: "Binary classification", B: "Clustering", C: "Regression", D: "Multiclass Classification" },
+        correct: "A",
+        exp: "مجموعة بيانات Moon dataset هي معيار كلاسيكي شهير لمهام التصنيف الثنائي (Binary Classification) للبيانات غير الخطية."
+    },
+    {
+        ch: 6, num: 2,
+        q: "At a high polynomial degree, what is a potential drawback of adding polynomial features to a dataset?",
+        options: { A: "Creation of a large number of features", B: "Increased model simplicity", C: "Enhanced interpretability of the model", D: "Improved model generalization" },
+        correct: "A",
+        exp: "رفع درجة متعددة الحدود يؤدي إلى انفجار تركيبي في عدد الميزات الناتجة (Combinatorial feature explosion) مما يبطئ النموذج بشدة."
+    },
+    {
+        ch: 6, num: 3,
+        q: "Which class Scikit-Learn is the regression equivalent of the SVC class?",
+        options: { A: "SVR", B: "LinearSVR", C: "LinearSVM", D: "LinearRegression" },
+        correct: "A",
+        exp: "الفئة المعادلة لـ SVC (Support Vector Classifier) في مهام الانحدار غير الخطي هي <code>SVR</code> (Support Vector Regressor)."
+    },
+    {
+        ch: 6, num: 4,
+        q: "What effect does the choice of the parameter γ have on the Gaussian Radial Basis Function (RBF) in terms of similarity computation?",
+        options: { A: "It has no effect", B: "It controls the width of bell-shaped curve around each landmark", C: "It determines the degree of polynomial features", D: "It adjusts the regularization strength of the model" },
+        correct: "B",
+        exp: "المعامل $\\gamma$ (Gamma) يتحكم في عرض الجرس لمنحنى دالة التشابه RBF؛ زيادته تجعل الجرس أضيق ونطاق تأثير كل عينة أصغر."
+    },
+    {
+        ch: 6, num: 5,
+        q: "What impact does a large range of influence have on the decision boundary in the Gaussian RBF Kernel?",
+        options: { A: "The decision boundary becomes a straight line", B: "The decision boundary becomes undefined", C: "the decision boundary becomes more irregular", D: "The decision boundary becomes more smoother" },
+        correct: "D",
+        exp: "عندما يكون نطاق التأثير واسعاً (قيمة $\\gamma$ صغيرة)، يمتزج تأثير العينات معاً ويصبح حد القرار أكثر نعومة وانسيابية (Smoother decision boundary)."
+    },
+    {
+        ch: 6, num: 6,
+        q: "What is geometric shape formed by the data points in moon dataset?",
+        options: { A: "Circle", B: "Interleaving Half Circles.", C: "Straight Line", D: "Parabola" },
+        correct: "B",
+        exp: "تتكون مجموعة بيانات Moon من نصفي دائرة متداخلتين (Two interleaving half circles)."
+    },
+    {
+        ch: 6, num: 7,
+        q: "SVMs are particularly well suited for classification of complex big-sized datasets.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، خوارزميات SVM ممتازة للبيانات المعقدة ذات الحجم الصغير إلى المتوسط، لكنها بطيئة جداً ولا تتوسع جيداً مع البيانات الضخمة (Big-sized datasets)."
+    },
+    {
+        ch: 6, num: 8,
+        q: "If you observe that your model is not capturing the complexity of a nonlinear problem effectively, what adjustment to the similar function could be considered?",
+        options: { A: "Remove features computed using the similar function", B: "Use a different kernel function", C: "Increase the number of features", D: "Decrease the value of γ" },
+        correct: "B",
+        exp: "عند فشل النموذج في التقاط تعقيد المسألة غير الخطية، يُفضل تجربة دالة نواة مختلفة (Different kernel function) مثل الانتقال من النواة الخطية إلى RBF أو Polynomial."
+    },
+    {
+        ch: 6, num: 9,
+        q: "What is the purpose of the kernel trick in Support Vector Machines (SVMs)?",
+        options: { A: "It simplifies the SVM training process.", B: "It introduces randomness to the SVM model.", C: "It avoids the need to add polynomial features explicitly", D: "It only work with linear SVMs" },
+        correct: "C",
+        exp: "حيلة النواة (Kernel trick) تمكن النموذج من العمل في فضاءات أبعاد عليا دون الحاجة إلى إنشاء وإضافة ميزات جديدة صراحة في الذاكرة."
+    },
+    {
+        ch: 6, num: 10,
+        q: "How can the automatic centering of the training set be achieved when using the LinearSVC class in Scikit-Learn?",
+        options: { A: "By scaling the data using the StandardScaler", B: "By explicitly subtracting the mean from the training set", C: "By using the fit_intercept parameter", D: "By setting the centering parameter to True" },
+        correct: "A",
+        exp: "يتم توسيط البيانات تلقائياً وتوحيد مقاييسها باستخدام محول <code>StandardScaler</code>."
+    },
+    {
+        ch: 6, num: 11,
+        q: "What recommendation is provided for adjusting the gamma hyperparameter when a model is overfitting?",
+        options: { A: "decrease it.", B: "Increase it.", C: "Leave it unchanged", D: "Set it to a high value" },
+        correct: "A",
+        exp: "عند حدوث Overfitting، يجب تقليل قيمة $\\gamma$ (Decrease gamma) لجعل حد القرار أكثر نعومة وسلاسة وتقليل حساسيته للعينات الفردية."
+    },
+    {
+        ch: 6, num: 12,
+        q: "What is consequence of adding more training instances within the margin in SVM Regression?",
+        options: { A: "It does not affect the model's predictions", B: "It improves model predictions", C: "It decreases the width of the street", D: "It increases the regularization strength" },
+        correct: "A",
+        exp: "في انحدار SVM (SVR)، يُعد النموذج غير حساس للعينات الواقعة داخل هامش الخطأ $\\epsilon$ ($\\epsilon$-insensitive)، لذا إضافتها لا يغير من التنبؤات."
+    },
+    {
+        ch: 6, num: 13,
+        q: "In the context of the added feature x2 = (x1)^2 what is the geometric interpretation of the resulting 2D dataset?",
+        options: { A: "The dataset forms a circle in 2D space", B: "The dataset become non-linear", C: "The dataset become linearly separable.", D: "The dataset become perfectly linearly separable." },
+        correct: "D",
+        exp: "إضافة الخاصية التربيعية ترفع البيانات أحادية البعد إلى بعد ثنائي لتصبح قابلة للفصل خطياً بشكل تام (Linearly separable)."
+    },
+    {
+        ch: 6, num: 14,
+        q: "If adjusting the polynomial degree does not address underfitting or overfitting in a polynomial SVM, what alternative action could be considered?",
+        options: { A: "Change the kernel function", B: "Adjust the hyperparameter coef0", C: "Modify the learning rate", D: "Increase the regularization strength." },
+        correct: "A",
+        exp: "إذا لم يكن ضبط درجة متعددة الحدود (Polynomial degree) كافياً لحل Underfitting أو Overfitting في Polynomial SVM، فالحل البديل هو تغيير دالة النواة (Kernel function) بالكامل، مثل الانتقال إلى RBF أو Linear kernel."
+    },
+    {
+        ch: 6, num: 15,
+        q: "What is primary objective in a soft-margin Support Vector Machine (SVM) using Scikit-Learn?",
+        options: { A: "Finding a balance between margin width and limiting violations", B: "Minimizing margin width", C: "Ignoring margin violations", D: "Maximizing margin violations" },
+        correct: "A",
+        exp: "الهدف من Soft-margin هو إيجاد توازن مثالي بين جعل الهامش عريضاً قدر الإمكان وبين تقليل انتهاكات الهامش (Margin violations)."
+    },
+    {
+        ch: 6, num: 16,
+        q: "Hard margin classification is sensitive to outliers.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، الـ Hard margin يتطلب فصلاً صارماً دون أي انتهاك، لذا فإن وجود قيمة شاذة واحدة قد يجعل الفصل مستحيلاً."
+    },
+    {
+        ch: 6, num: 17,
+        q: "Which class Scikit-Learn is the regression equivalent of the LinearSVC class?",
+        options: { A: "SVR", B: "LinearSVR", C: "LinearSVM", D: "LinearRegression" },
+        correct: "B",
+        exp: "الفئة الخطية المعادلة لـ LinearSVC في مسائل الانحدار هي <code>LinearSVR</code>."
+    },
+    {
+        ch: 6, num: 18,
+        q: "What is key difference between Logistic Regression and Support Vector Machine (SVM) classifiers in terms of output?",
+        options: { A: "SVM classifiers provide probabilities for each class.", B: "Both SVM and Logistic Regression classifiers output probabilities", C: "Logistic Regression classifiers do not output probabilities", D: "SVM classifiers output probabilities only for binary classification." },
+        correct: "C",
+        exp: "وفقاً للمفتاح الرسمي، الفرق الجوهري في المخرجات (Output) هو أن Logistic Regression classifiers do not output probabilities بشكل مباشر، ويُستخدم المخرج هنا كدرجة قرار (Decision score) للمقارنة بين الفئات."
+    },
+    {
+        ch: 6, num: 19,
+        q: "In terms of dimensions, what transformation occurs when each instance becomes a landmark?",
+        options: { A: "The number of dimensions increases", B: "The number of dimensions decreases", C: "The dimensions become irrelevant", D: "The number of dimensions remains the same" },
+        correct: "A",
+        exp: "عند تحويل كل عينة إلى معلم (Landmark)، يتحول فضاء الميزات إلى فضاء أبعاده مساوية لعدد العينات $m$، مما يزيد عدد الأبعاد بشكل كبير."
+    },
+    {
+        ch: 6, num: 20,
+        q: "What is the recommended action if Polynomial SVM model is overfitting?",
+        options: { A: "Adjust the hyperparameter coef0", B: "Decrease the polynomial degree.", C: "Increase the polynomial degree.", D: "Switch to a different kernel" },
+        correct: "B",
+        exp: "عند حدوث Overfitting، يجب تقليل درجة متعددة الحدود (Decrease polynomial degree) لتبسيط النموذج."
+    },
+    {
+        ch: 6, num: 21,
+        q: "hard margin classification only works if the data is linearly separable.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، يفشل الـ Hard margin تماماً إذا كانت البيانات غير قابلة للفصل الخطي الصارم."
+    },
+    {
+        ch: 6, num: 22,
+        q: "In the context of the adding features using a similarity function, what does the Gaussian Radial Basis Function (RBF) measure for each instance?",
+        options: { A: "The instance's absolute value", B: "How much each instance resembles a particular landmark", C: "The instance's distance from the origin", D: "The instance's rank in the dataset" },
+        correct: "B",
+        exp: "تقيس الدالة مدى تشابه واقتراب العينة من معلم محدد (Resembles a particular landmark)."
+    },
+    {
+        ch: 6, num: 23,
+        q: "Adding more training instances 'off the street' will affect the decision boundary at all.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، في SVM العينات الواقعة خارج الهامش ('off the street') لا تؤثر إطلاقاً على حد القرار، فالحد يتحدد فقط بواسطة متجهات الدعم (Support vectors)."
+    },
+    {
+        ch: 6, num: 24,
+        q: "What is the primary characteristic of the Moon dataset?",
+        options: { A: "It is a three-dimensional dataset", B: "It consists of two parallel lines", C: "It is a dataset for regression tasks", D: "Data points form two interleaving half circles" },
+        correct: "D",
+        exp: "السمة المميزة هي أنها تتكون من نصفي دائرة متداخلتين غير قابلتين للفصل الخطي."
+    },
+    {
+        ch: 6, num: 25,
+        q: "Which kernel function can be employed to address the computational expense associated with the similarity feature method in Support Vector Machines (SVM)?",
+        options: { A: "Sigmoid kernel", B: "Polynomial kernel", C: "Linear kernel", D: "Gaussian RBF Kernel" },
+        correct: "D",
+        exp: "نواة **Gaussian RBF Kernel** تعطي نفس النتيجة الرياضية لإضافة معالم التشابه دون الحاجة الحسابية لإنشاء الميزات فعلياً."
+    },
+    {
+        ch: 6, num: 26,
+        q: "What is the main trade-off associated with transforming a training set with m instances and n features into a set with m instances and m features?",
+        options: { A: "Increased risk of underfitting", B: "Improved model interpretability", C: "Improved model complexity", D: "The potential for overfitting" },
+        correct: "D",
+        exp: "تحويل الأبعاد إلى $m$ ميزة يزيد بشكل كبير من مرونة النموذج مما يرفع خطر حدوث الـ Overfitting."
+    },
+    {
+        ch: 6, num: 27,
+        q: "Which of the following statements accurately describes the role of Support Vector in Support Vector Machines (SVM)?",
+        options: { A: "Adding or removing training instances that lie outside the margin does not affect the decision boundary", B: "Support vectors are the training instances that are most representative of their respective classes, and they guide the SVM in finding the optimal decision boundary", C: "Support vectors are the training instances that are closest to the decision boundary, and they determine the position and orientation of the hyperplane", D: "The decision boundary is solely determined by the support vectors, and the remaining training instances do not influence its position" },
+        correct: "C",
+        exp: "متجهات الدعم هي العينات الأقرب لحد القرار، وهي التي تدعم وتحدد موضع وميل المستوي الفاصل (Hyperplane)."
+    },
+    {
+        ch: 6, num: 28,
+        q: "What is the role of the StandardScaler in relation to centering the training set for LinearSVC?",
+        options: { A: "It automatically subtracts the mean, centering the data", B: "It scales the data to a specific range", C: "It is not related to centering the training set", D: "It performs feature selection" },
+        correct: "A",
+        exp: "يقوم <code>StandardScaler</code> بطرح المتوسط لجعل مركز البيانات عند الصفر (Centering)."
+    },
+    {
+        ch: 6, num: 29,
+        q: "What is the significance of the Moon dataset in machine learning?",
+        options: { A: "It is a benchmark for testing clustering algorithms", B: "It is commonly used for sentiment analysis tasks", C: "It showcases the challenges of image recognition", D: "It helps in understanding non-linear decision boundaries in binary classification" },
+        correct: "D",
+        exp: "تساعد على دراسة واختبار حدود القرار غير الخطية في مهام التصنيف الثنائي."
+    },
+    {
+        ch: 6, num: 30,
+        q: "In Scikit-Learn, what is the role of the SVR class in regression?",
+        options: { A: "It is used for dimensionally reduction", B: "It is used for clustering", C: "It is used for binary classification", D: "It is used for regression tasks" },
+        correct: "D",
+        exp: "تُستخدم فئة <code>SVR</code> لتنفيذ مهام الانحدار والتنبؤ بالقيم العددية (Regression tasks)."
+    },
+    {
+        ch: 6, num: 31,
+        q: "What is the primary goal of creating a landmark at the location of each instance in the dataset in the context of handling nonlinear problems?",
+        options: { A: "To increase the likelihood of linear separability.", B: "To decrease the number of dimensions.", C: "To simplify the dataset.", D: "To introduce randomness to the model." },
+        correct: "A",
+        exp: "الهدف هو تحويل البيانات إلى فضاء ذي أبعاد أعلى لزيادة فرصة إمكانية فصلها خطياً."
+    },
+    {
+        ch: 6, num: 32,
+        q: "If you observe that the bias term regularization is crucial for your LinearSVC model, what preprocessing step should you consider?",
+        options: { A: "Data augmentation.", B: "Centering the training set using the StandardScaler.", C: "Feature scaling", D: "Feature engineering" },
+        correct: "B",
+        exp: "توسيط البيانات (Centering) باستخدام StandardScaler يضمن عدم تأثر الحد الثابت (Bias term) سلبياً بعملية التنظيم."
+    },
+    {
+        ch: 6, num: 33,
+        q: "What is a potential downside of creating a landmark at the location of each instance in the dataset?",
+        options: { A: "It may lead to overfitting.", B: "It simplifies the model too much.", C: "It improves model generalization.", D: "It decreases the dimensionality of the dataset." },
+        correct: "A",
+        exp: "زيادة عدد الميزات ليطابق عدد العينات يرفع جداً خطر الوقوع في الـ Overfitting."
+    },
+    {
+        ch: 6, num: 34,
+        q: "What is potential challenge associated with the similarity features method when applied to large training sets in machine learning?",
+        options: { A: "Reduction in the number of features.", B: "Enhanced model interpretability.", C: "Improved model performance.", D: "Increased computational expense." },
+        correct: "D",
+        exp: "تنتج مصفوفة ميزات ضخمة بحجم $m \\times m$ مما يسبب تكلفة حسابية واستنزافاً كبيراً للذاكرة."
+    },
+    {
+        ch: 6, num: 35,
+        q: "How does the kernel trick in SVMs address the challenge of high-degree polynomials features?",
+        options: { A: "By randomly selecting a subset of features.", B: "By using a specialized data preprocessing technique", C: "By limiting the degree of polynomials.", D: "By applying a mathematical transformation without explicitly adding features." },
+        correct: "D",
+        exp: "عبر تطبيق تحويل رياضي ضمني دون الحاجة لحساب وإضافة الميزات صراحة."
+    },
+    {
+        ch: 6, num: 36,
+        q: "If the SVM model is overfitting, you can try regularizing it by increasing C.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، لتقليل الـ Overfitting في SVM يجب تقليل قيمة $C$ (Reducing C) لجعل الهامش أعرض وزيادة قوة التنظيم."
+    },
+    {
+        ch: 6, num: 37,
+        q: "SVMs are sensitive to the feature scales.",
+        options: { A: "true", B: "false" },
+        correct: "A",
+        exp: "صحيح، لأن خوارزمية SVM تحسب مسافات هندسية إقليدية بين العينات والحد الفاصل."
+    },
+    {
+        ch: 6, num: 38,
+        q: "How does the kernel trick help mitigate the computational expense of the similarity features method in SVMs?",
+        options: { A: "It increase the computational complexity", B: "It reduces the number of features", C: "To introduce randomness to the model.", D: "It allows for implicit transformation without explicitly adding features." },
+        correct: "D",
+        exp: "تسمح بإجراء التحويل الضمني دون تكبد تكلفة إضافة الميزات فعلياً."
+    },
+    {
+        ch: 6, num: 39,
+        q: "Which scenario would most likely benefit from soft margin classification?",
+        options: { A: "A dataset with a clear linear separation between classes", B: "A dataset with a complex, non-linear decision boundary", C: "A dataset with a high degree of noise and uncertainty", D: "A dataset with a small number of outliers" },
+        correct: "B",
+        exp: "السيناريو الذي يستفيد أكثر من Soft margin classification هو وجود حد قرار معقد وغير خطي (Complex, non-linear decision boundary)، حيث يسمح الـ Soft margin ببعض الانتهاكات (Margin violations) لتحسين التعميم بدلاً من فرض فصل صارم مستحيل."
+    },
+    {
+        ch: 6, num: 40,
+        q: "If Polynomial SVM model is underfitting, what adjustment can be made to potentially improve its performance?",
+        options: { A: "Adjust the hyperparameter coef0", B: "Switch to a different kernel", C: "Decrease the polynomial degree.", D: "Increase the polynomial degree." },
+        correct: "D",
+        exp: "عند حدوث Underfitting يجب زيادة درجة متعددة الحدود (Increase polynomial degree) لزيادة مرونة النموذج وقدرته على التعلم."
+    },
+    {
+        ch: 6, num: 41,
+        q: "What limitation is associated with adding polynomial features at a low polynomial degree?",
+        options: { A: "Limited expressiveness of the model.", B: "Overfitting to the training data", C: "Increased computational complexity", D: "Inability to handle complex datasets" },
+        correct: "D",
+        exp: "القيد الأساسي لإضافة Polynomial features بدرجة منخفضة (Low polynomial degree) هو العجز عن التعامل مع مجموعات البيانات المعقدة (Inability to handle complex datasets)، لأن الدرجة المنخفضة لا تملك التعبيرية الكافية لتمثيل حدود القرار المعقدة."
+    },
+    {
+        ch: 6, num: 42,
+        q: "If the SVM model is underfitting, you can try regularizing it by reducing C.",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، عند حدوث Underfitting يجب زيادة قيمة $C$ لجعل الهامش أضيق والسماح للنموذج بملاءمة البيانات بدقة أكبر."
+    },
+    {
+        ch: 6, num: 43,
+        q: "Which of the following machine learning algorithms is capable of performing linear or nonlinear classification, regression, and even outlier detection?",
+        options: { A: "Logistic Regression", B: "Linear Regression", C: "Support Vector Machine (SVM)", D: "All of them" },
+        correct: "C",
+        exp: "تعد خوارزمية **SVM** من الخوارزميات متعددة الاستخدامات القادرة على التصنيف، الانحدار، واكتشاف الشذوذ (One-Class SVM)."
+    },
+    {
+        ch: 6, num: 44,
+        q: "What advantage does kernel trick provide in terms of computational efficiency in SVMs?",
+        options: { A: "It allows for the use of high-degree polynomials without a significant increase in computational demand", B: "It increases computational complexity", C: "It makes the SVM training process slower", D: "It has no impact no computational efficiency" },
+        correct: "A",
+        exp: "تتيح استخدام درجات عليا دون زيادة هائلة في العمليات الحسابية أو استهلاك الذاكرة."
+    },
+    {
+        ch: 6, num: 45,
+        q: "When is the Gaussian RBF kernel particularly useful in the context if the similarity features method?",
+        options: { A: "When using decision trees.", B: "When the dataset is linearly separable.", C: "When overfitting is a concern.", D: "When computational expense is a limiting factor." },
+        correct: "D",
+        exp: "عندما تكون التكلفة الحسابية عائقاً أمام إضافة معالم التشابه يدوياً."
+    },
+    {
+        ch: 6, num: 46,
+        q: "what is a potential drawback of hard margin classification?",
+        options: { A: "It is sensitive to outliers.", B: "It requires hard dimensionality.", C: "It works only with non-linear data.", D: "It provides robustness to noise" },
+        correct: "A",
+        exp: "الحساسية المفرطة للقيم الشاذة (Sensitive to outliers) وعدم قدرته على إيجاد حل إذا لم تكن البيانات قابلة للفصل الخطي تماماً."
+    },
+    {
+        ch: 6, num: 47,
+        q: "What is the primary reason for adding a second feature x2 = (x1)^2 to the dataset?",
+        options: { A: "To make the dataset linearly separable.", B: "To introduce non-linearity to the dataset.", C: "To increase the dimensionality of the dataset.", D: "To make the dataset more complex." },
+        correct: "A",
+        exp: "لجعل البيانات قابلة للفصل خطياً (Linearly separable) في الفضاء الجديد."
+    },
+    {
+        ch: 6, num: 48,
+        q: "Support Vector Machines (SVM) are capable of performing linear classification and regression only",
+        options: { A: "true", B: "false" },
+        correct: "B",
+        exp: "خطأ، خوارزميات SVM قادرة على أداء المهام الخطية وغير الخطية (Linear and Non-linear) بكفاءة عالية عبر النوى المختلفة."
+    },
+    {
+        ch: 6, num: 49,
+        q: "In the context of SVM, what is the main benefit of the kernel trick compared to explicitly adding polynomial features?",
+        options: { A: "computational efficiency and avoidance of feature explosion.", B: "Reduced risk of overfitting", C: "Improved model interpretability", D: "Improved model complexity" },
+        correct: "A",
+        exp: "الكفاءة الحسابية العالية وتفادي الانفجار في عدد الميزات."
+    },
+    {
+        ch: 6, num: 50,
+        q: "Under what circumstances might the SGDClassifier class be preferred for training a linear SVM?",
+        options: { A: "When memory constraints are not an issue", B: "For online classification tasks with small dataset", C: "When the dataset fits entirely in memory.", D: "For online classification tasks or huge datasets that do not fit in memory." },
+        correct: "D",
+        exp: "يُفضل استخدام <code>SGDClassifier(loss='hinge')</code> مع البيانات الضخمة التي لا تتسع لها الذاكرة العشوائية أو لمهام التعلم الفوري Online learning."
+    },
+    {
+        ch: 6, num: 51,
+        q: "What happens to number of features when each instance becomes a landmark in the dataset?",
+        options: { A: "The number of features increases", B: "The number of features decreases", C: "The number of features become irrelevant", D: "The number of features remains the same" },
+        correct: "A",
+        exp: "يزداد عدد الميزات ليصبح مساوياً لعدد عينات التدريب الكلي."
+    },
+    {
+        ch: 6, num: 52,
+        q: "Which of the following statements best describes the role of the kernel trick in SVMs?",
+        options: { A: "It replaces the need for model regularization.", B: "It is only applicable to linear SVMs.", C: "It introduces randomness to SVM model", D: "It allows for implicit transformation to higher-dimensional spaces" },
+        correct: "D",
+        exp: "تسمح بإجراء التحويل الضمني إلى فضاءات ذات أبعاد عليا دون تكلفة حسابية صريحة."
+    },
+    {
+        ch: 6, num: 53,
+        q: "what is the advantage of using SGDClassifier class over the LinearSVC for training a linear SVM Classification?",
+        options: { A: "Better handing of non-linear data", B: "Simpler implementation", C: "Higher accuracy", D: "Faster convergence" },
+        correct: "D",
+        exp: "قدرتها على التعامل بكفاءة وسرعة مع مجموعات البيانات الضخمة وخارج الذاكرة (Out-of-core learning)."
+    },
+    {
+        ch: 6, num: 54,
+        q: "What effect does the addition of the feature x2 = (x1)^2 have on the decision boundary of a linear classifier applied to the dataset?",
+        options: { A: "The decision boundary becomes more complex", B: "The decision boundary becomes non-existent", C: "The decision boundary becomes unchanged", D: "The decision boundary becomes linear" },
+        correct: "D",
+        exp: "يصبح حد القرار مستوياً أو خطاً مستقيماً فاصلاً (Linear) في الفضاء ثنائي الأبعاد الجديد."
+    },
+    {
+        ch: 6, num: 55,
+        q: "Which of the following characteristic best describes the large margin classification approach used by Support Vector Machines (SVM)?",
+        options: { A: "It fits the decision boundary to the distribution of the training data as closely as possible.", B: "It partitions the training data into two classes based on a series of rules.", C: "It minimizes the error between the predicted and actual labels of the training data.", D: "It maximizes the distance between the decision boundary and the closest training instances of the two classes" },
+        correct: "D",
+        exp: "يهدف إلى تعظيم المسافة الفاصلة (Margin) بين حد القرار وأقرب عينات التدريب من كلا الفئتين."
+    },
+    {
+        ch: 6, num: 56,
+        q: "In SVM Regression, what is the primary objective in terms of fitting instances on the street and limiting margin violations?",
+        options: { A: "Fitting as many instances as possible on the street while limiting margin violations.", B: "Maximizing margin violations", C: "Minimizing instances on the street", D: "Ignoring the concept of a street" },
+        correct: "A",
+        exp: "عكس التصنيف؛ الهدف في SVR هو احتواء أكبر عدد ممكن من العينات داخل الهامش أو الشارع مع الحد من الانتهاكات خارجه."
+    },
+    {
+        ch: 6, num: 57,
+        q: "What parameter in the SGDClassifier class controls the regularization strength in the context of training a linear SVM?",
+        options: { A: "loss", B: "alpha", C: "kernel", D: "c" },
+        correct: "B",
+        exp: "في <code>SGDClassifier</code> يتم التحكم في قوة التنظيم عبر المعامل الفائق <code>alpha</code> (وهو يتناسب عكسياً مع $C$)."
+    },
+    {
+        ch: 6, num: 58,
+        q: "what is the consequence of adding more training instances within the margin in SVM Regression?",
+        options: { A: "It does not affect the model's predictions", B: "It Improved model predictions", C: "It decreases the width of the street", D: "It increases the regularization strength" },
+        correct: "A",
+        exp: "إضافة عينات داخل الهامش في SVR لا تؤثر إطلاقاً على تنبؤات النموذج ($\\epsilon$-insensitive)."
+    },
+    {
+        ch: 6, num: 59,
+        q: "Why might the Moon dataset be considered a 'toy' dataset?",
+        options: { A: "It represents complex real-world scenarios.", B: "It is small and simple, often used for testing and debugging", C: "It is only used in academic research", D: "It requires advanced machine learning techniques" },
+        correct: "B",
+        exp: "لأنها مجموعة بيانات اصطناعية صغيرة وبسيطة تُستخدم للأغراض التعليمية والاختبار والتوضيح البصري."
+    },
+    {
+        ch: 6, num: 60,
+        q: "What role does the hyperparameter coef0 play in controlling in influence of high-degree versus low-degree polynomials in SVMs?",
+        options: { A: "It effects the balance between high-degree and low-degree polynomials.", B: "It adjusts the model's regularization strength", C: "It controls the learning rate during training", D: "It determines the size of the margin in the SVM" },
+        correct: "A",
+        exp: "يتحكم <code>coef0</code> في التوازن بين تأثير الحدود متعددة الحدود ذات الدرجة العالية مقارنة بالدرجات المنخفضة."
+    },
+    {
+        ch: 6, num: 61,
+        q: "What is the purpose of adding features computed using a similarity function, such as the Gaussian Radial Basis Function (RBF), in machine learning?",
+        options: { A: "To simplify the dataset.", B: "To handle nonlinear problems.", C: "To reduce the number of features", D: "To decrease model complexity" },
+        correct: "B",
+        exp: "الهدف هو التعامل مع المسائل والبيانات غير الخطية (Handle nonlinear problems) عبر تحويلها إلى فضاء خطي."
+    },
+    // ================= CHAPTER 7: DECISION TREES (DTS) =================
+    {
+        ch: 7, num: 1,
+        q: "What is mean Decision Trees(DTs)?",
+        options: { A: "are versatile Machine Learning algorithms that can perform both classification and regression tasks, and even multioutput tasks.", B: "are an ensemble of DTs, generally trained via the bagging method (or sometimes pasting), typically with max samples set to the size of the training set.", C: "are capable of performing linear or nonlinear classification, regression, and even outlier detection.", D: "All of them is false" },
+        correct: "A",
+        exp: "أشجار القرار (Decision Trees) هي خوارزميات مرنة قادرة على إنجاز مهام التصنيف، الانحدار، والمهام متعددة المخرجات (Multioutput)."
+    },
+    {
+        ch: 7, num: 2,
+        q: "Decision Trees are powerful algorithms, capable of fitting complex datasets.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تتميز أشجار القرار بقدرتها الفائقة على ملاءمة مجموعات البيانات المعقدة."
+    },
+    {
+        ch: 7, num: 3,
+        q: "What is fundamental of DTs?",
+        options: { A: "are capable of performing linear or nonlinear classification, regression, and even outlier detection.", B: "are a higher bias for a lower variance, generally yielding an overall better model.", C: "are the fundamental components of Random Forests, which are among the most powerful Machine Learning algorithms available today.", D: "All of them is false" },
+        correct: "C",
+        exp: "أشجار القرار هي حجر الأساس والمكون الجوهري لخوارزمية الغابات العشوائية (Random Forests)."
+    },
+    {
+        ch: 7, num: 4,
+        q: "Using the export_graphviz() method to output a graph definition file called iris_tree.dot",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تُستخدم دالة <code>export_graphviz()</code> لتصدير بنية شجرة القرار إلى ملف بصيغة DOT للتصور البصري."
+    },
+    {
+        ch: 7, num: 5,
+        q: "What is Root node in the Iris classification tree example?",
+        options: { A: "This node asks whether the flower's petal length is smaller than 2.45 cm.", B: "it is a leaf node, so it does not ask any questions: simply look at the predicted class for that node", C: "Is the petal width smaller than 1.75 cm and If it is, then your flower is most likely an Iris versicolor and not, it is likely an Iris virginica", D: "All of them is false" },
+        correct: "A",
+        exp: "العقدة الجذرية (Root node) تبدأ عند العمق 0 وتفحص أول شرط: هل طول البتلة (Petal length) أقل من 2.45 سم أم لا."
+    },
+    {
+        ch: 7, num: 6,
+        q: "An Root's right child node, If it is, then your flower is most likely an Iris virginica",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "العبارة خاطئة (False) كما في المفتاح الرسمي، فالفرع الأيمن للجذر (Root's right child) لا يعني حتماً أن الزهرة Iris virginica، بل يمثل مساراً في Decision Tree يجب متابعته مع بقية الأسئلة قبل الحكم النهائي على الفئة."
+    },
+    {
+        ch: 7, num: 7,
+        q: "DTs require very more data preparation.",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، أشجار القرار تتطلب إعداداً وتجهيزاً قليلاً جداً للبيانات (Very little data preparation) ولا تتطلب Feature Scaling."
+    },
+    {
+        ch: 7, num: 8,
+        q: "DTs don't require feature scaling or centering at all.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، لا تتأثر قرارات التقسيم في الشجرة بمقاييس الميزات، لذا لا تحتاج لتوسيط أو تدريج."
+    },
+    {
+        ch: 7, num: 9,
+        q: "Scikit-Learn uses the CART algorithm, which produces only binary trees, where as ID3 can produce Decision Trees with nodes that have less than two children",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "العبارة خاطئة (False) وفقاً للمفتاح الرسمي، لأن ID3 يمكن أن تنتج عقداً لها أكثر من طفلين (More than two children) بتقسيم متعدد الاتجاهات، وليس أقل من طفلين كما ورد في الصياغة."
+    },
+    {
+        ch: 7, num: 10,
+        q: "DTs are intuitive, and their decisions are easy to interpret. Such models are often called........... models.",
+        options: { A: "red box", B: "black box", C: "white box", D: "All of them are true" },
+        correct: "C",
+        exp: "تسمى أشجار القرار بنماذج الصندوق الأبيض (**White box models**) لسهولة تفسير وتتبع قراراتها المنطقية."
+    },
+    {
+        ch: 7, num: 11,
+        q: "........... are generally considered black box models.",
+        options: { A: "Random Forests", B: "Neural Networks", C: "Both of them", D: "None of them" },
+        correct: "C",
+        exp: "كل من الشبكات العصبية والغابات العشوائية تُعد نماذج صندوق أسود (Black box) لصعوبة تفسير قراراتها خطوة بخطوة."
+    },
+    {
+        ch: 7, num: 12,
+        q: "In DTs, It stops recursing once it reaches the minimum depth",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، تتوقف خوارزمية CART عند الوصول إلى أقصى عمق محدد (Maximum depth - max_depth) أو عند تعذر إيجاد تقسيم يقلل الشوائب."
+    },
+    {
+        ch: 7, num: 13,
+        q: "The CART algorithm is a greedy algorithm: it greedily searches for an optimum split at the top level, then repeats the process at each subsequent level.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، خوارزمية CART طماعة (Greedy algorithm) تبحث عن أفضل تقسيم محلي فوري عند كل مستوى دون النظر للتكلفة المستقبلية."
+    },
+    {
+        ch: 7, num: 14,
+        q: "A greedy algorithm often produces a solution that's reasonably good and guaranteed to be optimal.",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، الخوارزميات الجشعة تنتج حلولاً جيدة لكنها ليست مضمونة رياضياً لتكون الحل الأمثل عالمياً (Not guaranteed to be optimal)."
+    },
+    {
+        ch: 7, num: 15,
+        q: "Computational Complexity of DTs training is:",
+        options: { A: "O(m)", B: "O(n × m log2(m))", C: "O(n)", D: "O(m log(m))" },
+        correct: "B",
+        exp: "التعقيد الحسابي لتدريب الشجرة يتطلب مقارنة جميع الميزات على جميع العينات عند كل عقدة وهو $O(n \\times m \\log_2(m))$."
+    },
+    {
+        ch: 7, num: 16,
+        q: "DTs generally are approximately balanced, so traversing the DT requires going through roughly........ nodes",
+        options: { A: "O(m log2(m))", B: "O(log(m))", C: "O(log2(m))", D: "O(n log2(m))" },
+        correct: "C",
+        exp: "التنبؤ بشجرة متوازنة يتطلب اجتياز مسار يمر بـ $O(\\log_2(m))$ عقدة تقريباً، مما يجعل التنبؤ سريعاً جداً ومستقلاً عن عدد الميزات."
+    },
+    {
+        ch: 7, num: 17,
+        q: "If predictions are very slow, even when dealing with large training sets.",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، التنبؤ في أشجار القرار سريع للغاية (Fast) بتعقيد $O(\\log(m))$ حتى مع مجموعات التدريب الكبيرة."
+    },
+    {
+        ch: 7, num: 18,
+        q: "In DTs, The training algorithm compares all features on all samples at each node.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تفحص الخوارزمية كل زوج من (الخاصية، العتبة) لتحديد أفضل تقسيم يقلل من الشوائب."
+    },
+    {
+        ch: 7, num: 19,
+        q: "By default, the Gini impurity measure is used, but you can select the entropy impurity measure instead by setting the criterion hyperparameter to 'entropy'.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، المعيار الافتراضي هو Gini Impurity ويمكن تغييره إلى Entropy عبر معامل <code>criterion='entropy'</code>."
+    },
+    {
+        ch: 7, num: 20,
+        q: "In ML, ........... is frequently used as an impurity measure.",
+        options: { A: "Gini impurity", B: "entropy", C: "Both of them", D: "None of them" },
+        correct: "B",
+        exp: "القياس المذكور في المفتاح الرسمي كمقياس شائع للشوائب (Impurity measure) في Decision Trees هو entropy، حيث يُستخدم لقياس عشوائية توزيع الفئات داخل العقدة وتقييم جودة الانقسام (Split quality)."
+    },
+    {
+        ch: 7, num: 21,
+        q: "What is difference between Gini impurity and entropy?",
+        options: { A: "Entropy is slightly faster to compute, so it is a good default.", B: "Entropy tends to isolate the most frequent class in its own branch of the tree, while Gini impurity tends to produce slightly more balanced trees.", C: "Gini impurity tends to isolate the most frequent class in its own branch of the tree, while entropy tends to produce slightly more balanced trees.", D: "All of them is false" },
+        correct: "C",
+        exp: "يميل مقياس Gini إلى عزل الفئة الأكثر تكراراً في فرع خاص بها، بينما مقياس Entropy يميل لإنتاج أشجار أكثر توازناً نوعاً ما."
+    },
+    {
+        ch: 7, num: 22,
+        q: "DTs make very few assumptions about the training data.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، أشجار القرار نماذج غير معلمية (Nonparametric) لا تفترض توزيعاً خطياً مسبقاً للبيانات."
+    },
+    {
+        ch: 7, num: 23,
+        q: "If left unconstrained, the tree structure will adapt itself to the training data, fitting it very closely—indeed, most likely underfitting it",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، إذا تركت الشجرة دون قيود فإنها ستتكيف مع بيانات التدريب بشدة مما يسبب **Overfitting** حاداً وليس underfitting."
+    },
+    {
+        ch: 7, num: 24,
+        q: "A parametric model such as a..........",
+        options: { A: "DTs", B: "SVM", C: "linear model", D: "All of them are true" },
+        correct: "C",
+        exp: "النموذج الخطي (Linear model) هو نموذج معلمي (Parametric) لامتلاكه عدداً ثابتاً ومحدداً مسبقاً من المعلمات."
+    },
+    {
+        ch: 7, num: 25,
+        q: "Not because it does not have any parameters but because the number of parameters is not determined prior to training, it is called a........... model",
+        options: { A: "parametric model", B: "nonparametric model", C: "miniparametric model", D: "All of them are true" },
+        correct: "B",
+        exp: "يسمى بالنموذج غير المعلمي (**Nonparametric model**) لأن بنية ومعلمات النموذج تتحدد أثناء التدريب وتنمو مع البيانات بحرية."
+    },
+    {
+        ch: 7, num: 26,
+        q: "Has a pre-determined number of parameters, so its degree of freedom is limited, reducing the risk of overfitting, it is called a........... model",
+        options: { A: "linear model", B: "nonparametric model", C: "miniparametric model", D: "All of them are true" },
+        correct: "A",
+        exp: "النموذج المعلمي مثل النموذج الخطي يمتلك عدداً محدداً مسبقاً من المعلمات مما يقيد درجات حريته ويقلل خطر الـ Overfitting."
+    },
+    {
+        ch: 7, num: 27,
+        q: "............ is the minimum number of samples a node must have before it can be split.",
+        options: { A: "min_samples_split", B: "min_samples_leaf", C: "max_features", D: "max_depth" },
+        correct: "A",
+        exp: "المعامل الفائق <code>min_samples_split</code> يحدد الحد الأدنى لعدد العينات التي يجب توفرها في العقدة للسماح بتقسيمها."
+    },
+    {
+        ch: 7, num: 28,
+        q: "...........is the minimum number of samples a leaf node must have.",
+        options: { A: "min_samples_split", B: "min_samples_leaf", C: "max_features", D: "max_depth" },
+        correct: "B",
+        exp: "المعامل الفائق <code>min_samples_leaf</code> يحدد الحد الأدنى من العينات التي يجب أن تحتويها العقدة الورقية (Leaf node)."
+    },
+    {
+        ch: 7, num: 29,
+        q: "........... is the maximum number of features that are evaluated for splitting at each node.",
+        options: { A: "min_samples_split", B: "min_samples_leaf", C: "max_features", D: "max_depth" },
+        correct: "C",
+        exp: "المعامل الفائق <code>max_features</code> يحدد الحد الأقصى لعدد الميزات التي يتم تقييمها عند كل عقدة لاختيار التقسيم."
+    },
+    {
+        ch: 7, num: 30,
+        q: "Why need to restrict the DT's freedom during training in Regularization Hyperparameters?",
+        options: { A: "To increase overfitting the training data", B: "To avoid underfitting the training data", C: "To avoid overfitting the training data", D: "To increase underfitting the training data" },
+        correct: "C",
+        exp: "لتقييد درجات حرية الشجرة ومنعها من حفظ بيانات التدريب وتفادي الوقوع في الـ **Overfitting**."
+    },
+    {
+        ch: 7, num: 31,
+        q: "It is quite obvious that the model on the left is overfitting, and the model on the right will probably generalize better.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، في مقارنة الكتاب، الشجرة غير المقيدة تحفظ كل عينة شاذة، بينما الشجرة المنظمة بمعاملات التقييد تعمم بشكل أفضل بكثير."
+    },
+    {
+        ch: 7, num: 32,
+        q: "In CART Cost Function for Regression, it now tries to split the training set in a way that minimizes the MSE.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، عند استخدام CART في الانحدار، تحاول الخوارزمية تقسيم البيانات بحيث تصغر متوسط الخطأ التربيعي (MSE)."
+    },
+    {
+        ch: 7, num: 33,
+        q: "In CART Cost Function for Regression, it now tries to split the training set in a way that maximizes the MSE.",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، الهدف دائماً هو تصغير (Minimizes) خطأ الـ MSE وليس تكبيره."
+    },
+    {
+        ch: 7, num: 34,
+        q: "In DTs, the main difference is that instead of predicting a class in each node, it predicts a value.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، في أشجار الانحدار (Regression Trees)، تتنبأ كل عقدة ورقية بقيمة عددية تمثل متوسط قيم العينات التابعة لها."
+    },
+    {
+        ch: 7, num: 35,
+        q: "What is Advantages of DT?",
+        options: { A: "DTs love orthogonal decision boundaries", B: "They are simple to understand and interpret, easy to use, versatile, and powerful.", C: "They are very sensitive to small variations in the training data.", D: "All of them are false" },
+        correct: "B",
+        exp: "من أهم مزايا أشجار القرار: بساطة الفهم والتفسير، سهولة الاستخدام، المرونة والقوة."
+    },
+    {
+        ch: 7, num: 36,
+        q: "Although both Decision Trees fit the training set perfectly, it is very likely that the model on the right will not generalize well.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، بسبب حساسية أشجار القرار لتدوير المحاور والتغيرات البسيطة، قد تفشل بعض النماذج المعقدة في التعميم."
+    },
+    {
+        ch: 7, num: 37,
+        q: "Use Principal Component Analysis (PCA), which often results in a better orientation of the training data.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تطبيق تقنية PCA يساعد في تدوير محاور البيانات وإيجاد اتجاه أفضل للتغلب على قيود الحدود المتعامدة للشجرة."
+    },
+    {
+        ch: 7, num: 38,
+        q: "If you just remove the widest Iris versicolor from the iris training set and train a new Decision Tree, you may get very different results.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، أشجار القرار شديدة الحساسية وتفتقر إلى الاستقرار (High instability)؛ إذ قد يؤدي حذف عينة واحدة لتوليد شجرة مختلفة تماماً."
+    },
+    {
+        ch: 7, num: 39,
+        q: "Random Forests can limit this instability by averaging predictions over many trees.",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تتغلب الغابات العشوائية على مشكلة عدم الاستقرار عن طريق حساب متوسط تنبؤات العديد من الأشجار المتنوعة."
+    },
+    {
+        ch: 7, num: 40,
+        q: "Random Forests can limit this instability by averaging predictions over few trees.",
+        options: { A: "True", B: "False" },
+        correct: "B",
+        exp: "خطأ، يتطلب الأمر حساب المتوسط على عدد كبير ومتنوع من الأشجار (Many trees) وليس بضع أشجار فقط."
+    },
+    {
+        ch: 7, num: 41,
+        q: "Scikit-Learn uses the Classification and Regression Tree (CART) algorithm to train DTs",
+        options: { A: "True", B: "False" },
+        correct: "A",
+        exp: "صحيح، تعتمد مكتبة Scikit-Learn خوارزمية **CART** القياسية لبناء وتدريب أشجار التصنيف والانحدار."
+    },
+];
+
+let currentFilter = 'all';
+
+function renderQuiz() {
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+
+    let prevCh = null;
+    const chapterTitles = {
+        1: 'Chapter 1: The Machine Learning Landscape',
+        2: 'Chapter 2: End-to-End Machine Learning Project',
+        3: 'Chapter 3: Classification',
+        4: 'Chapter 4: Training Models (Part I)',
+        5: 'Chapter 5: Training Models (Part II)',
+        6: 'Chapter 6: Support Vector Machines (SVM)',
+        7: 'Chapter 7: Decision Trees (DTs)'
+    };
+
+    quizData.forEach((item) => {
+        const qId = `q_${item.ch}_${item.num}`;
+        
+        if (currentFilter !== 'all' && item.ch !== currentFilter) {
+            return;
+        }
+
+        if (currentFilter === 'all' && item.ch !== prevCh) {
+            const divHeader = document.createElement('div');
+            divHeader.className = 'chapter-divider';
+            divHeader.innerText = chapterTitles[item.ch] || ('Chapter ' + item.ch);
+            container.appendChild(divHeader);
+            prevCh = item.ch;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-${qId}`;
+        card.setAttribute('data-ch', item.ch);
+        card.setAttribute('data-correct', item.correct);
+
+        let optionsHtml = '';
+        for (const [key, val] of Object.entries(item.options)) {
+            optionsHtml += `
+                <label class="option-label" data-value="${key}">
+                    <input type="radio" name="${qId}" value="${key}">
+                    <span><strong>${key}.</strong> ${val}</span>
+                </label>
+            `;
+        }
+
+        card.innerHTML = `
+            <div class="q-header">
+                <span class="q-badge">Ch ${item.ch} - Q${item.num}</span>
+                <div class="q-text">${item.q}</div>
+            </div>
+            <div class="options-grid">
+                ${optionsHtml}
+            </div>
+            <div class="explanation" id="exp-${qId}">
+                <strong>الشرح والتحليل:</strong> ${item.exp}
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    updateScoreDisplay();
+}
+
+function filterQuestions(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    if (filter === 'all') document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    else if (filter === 1) document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    else if (filter === 2) document.querySelectorAll('.tab-btn')[2].classList.add('active');
+    else if (filter === 3) document.querySelectorAll('.tab-btn')[3].classList.add('active');
+    else if (filter === 4) document.querySelectorAll('.tab-btn')[4].classList.add('active');
+    else if (filter === 5) document.querySelectorAll('.tab-btn')[5].classList.add('active');
+    else if (filter === 6) document.querySelectorAll('.tab-btn')[6].classList.add('active');
+    else if (filter === 7) document.querySelectorAll('.tab-btn')[7].classList.add('active');
+
+    renderQuiz();
+}
+
+function submitQuiz() {
+    let correctCount = 0;
+    let answeredCount = 0;
+    let totalQuestions = 0;
+
+    quizData.forEach((item) => {
+        if (currentFilter !== 'all' && item.ch !== currentFilter) return;
+
+        totalQuestions++;
+        const qId = `q_${item.ch}_${item.num}`;
+        const card = document.getElementById(`card-${qId}`);
+        if (!card) return;
+
+        const labels = card.querySelectorAll('.option-label');
+        const checkedInput = card.querySelector(`input[name="${qId}"]:checked`);
+        const explanation = document.getElementById(`exp-${qId}`);
+
+        labels.forEach(lbl => lbl.classList.remove('is-correct', 'is-wrong'));
+
+        if (!checkedInput) {
+            if (explanation) explanation.style.display = 'none';
+            return;
+        }
+
+        answeredCount++;
+
+        if (checkedInput.value === item.correct) {
+            correctCount++;
+            const chosenLabel = card.querySelector(`.option-label[data-value="${checkedInput.value}"]`);
+            if (chosenLabel) chosenLabel.classList.add('is-correct');
+        } else {
+            const wrongLabel = card.querySelector(`.option-label[data-value="${checkedInput.value}"]`);
+            if (wrongLabel) wrongLabel.classList.add('is-wrong');
+            const correctLabel = card.querySelector(`.option-label[data-value="${item.correct}"]`);
+            if (correctLabel) correctLabel.classList.add('is-correct');
+        }
+
+        if (explanation) explanation.style.display = 'block';
+    });
+
+    const remaining = totalQuestions - answeredCount;
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    scoreDisplay.innerText = `Answered: ${answeredCount} / ${totalQuestions} (${remaining} Left) | Score: ${correctCount} / ${answeredCount}`;
+    scoreDisplay.style.color = answeredCount === 0 ? '#f0f6fc' : ((correctCount / answeredCount) >= 0.7 ? '#3fb950' : '#f85149');
+}
+
+function resetQuiz() {
+    document.getElementById('quizForm').reset();
+    const cards = document.querySelectorAll('.question-card');
+    
+    cards.forEach(card => {
+        const labels = card.querySelectorAll('.option-label');
+        labels.forEach(lbl => lbl.classList.remove('is-correct', 'is-wrong'));
+        const explanation = card.querySelector('.explanation');
+        if (explanation) explanation.style.display = 'none';
+    });
+
+    updateScoreDisplay();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateScoreDisplay() {
+    const total = currentFilter === 'all' ? 378 : (currentFilter === 1 ? 52 : (currentFilter === 2 ? 59 : (currentFilter === 3 ? 64 : (currentFilter === 4 ? 50 : (currentFilter === 5 ? 51 : (currentFilter === 6 ? 61 : 41))))));
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    scoreDisplay.innerText = `Answered: 0 / ${total} (${total} Left) | Score: 0 / 0`;
+    scoreDisplay.style.color = '#f0f6fc';
+}
+
+document.addEventListener('DOMContentLoaded', renderQuiz);
+</script>
+
+</body>
+</html>
